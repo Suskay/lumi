@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class Tree : MonoBehaviour
+{
+    public bool isUsed = false; // Flag to check if the checkpoint tree has been used
+
+    // method that turns isUsed to true and plays particle effect on tree object
+    public void UseTree()
+    {
+        isUsed = true;
+    }
+}
