@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    // This is a gamemanager
     public static GameManager Instance { get; private set; }
 
     public bool IsGameOver { get; private set; }
