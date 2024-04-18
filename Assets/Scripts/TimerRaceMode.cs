@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimerRaceMode : MonoBehaviour
@@ -41,6 +42,8 @@ public class TimerRaceMode : MonoBehaviour
     {
         isTimerRunning = false;
         
+        RaceHighscoreManager.Instance.SaveHighscore(SceneManager.GetActiveScene().name, elapsedTime);
+
         gameOverText.text = "Time: " + timerText.text + "\nPress any key to restart or " +
                             "Escape to return to the Main Menu";
         timerText.text = "";
