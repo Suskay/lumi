@@ -55,6 +55,10 @@ ExportedObj/
 # Copilot files
 .idea/**/*.lck
 
+# Workspace
+.idea/.idea.LumiX/.idea/workspace.xml
+
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
