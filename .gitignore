@@ -77,3 +77,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Nikita ignores
+
+.idea/.idea.lumi.dir/.idea/projectSettingsUpdater.xml
+.idea/.idea.lumi.dir/.idea/workspace.xml
+/Assets/Settings/URP-HighFidelity-Renderer.asset
+/ProjectSettings/ShaderGraphSettings.asset
