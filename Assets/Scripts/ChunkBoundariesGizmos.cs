@@ -5,10 +5,10 @@ using UnityEngine;
 public class ChunkBoundariesGizmos : MonoBehaviour
 {
     
-    public float chunkDistance = 35f;
-    public float chunkHeight = 1f;
-    public float chunkWidth = 30f;
-    public float chunkDepth = 30f;
+    public static float chunkDistance = 35f;
+    public static float chunkHeight = 1f;
+    public static float chunkWidth = 30f;
+    public static float chunkDepth = 30f;
     public Color gizmoColor = Color.green;
 
     private void OnDrawGizmos()
