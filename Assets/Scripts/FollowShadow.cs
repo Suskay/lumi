@@ -65,6 +65,8 @@ public class FollowShadow : MonoBehaviour
 
         // Set the player's initial position to the center of the current shadow
         UpdatePlayerPosition();
+        
+        
     }
 
     void Update()
@@ -72,8 +74,10 @@ public class FollowShadow : MonoBehaviour
         UpdatePlayerPosition();
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            Debug.Log("Space key was released.");
             if (overlappingShadows.Count != 0)
             {
+                Debug.Log("Jumping to new shadow, shadow count: "+overlappingShadows.Count);
                 SwitchToNewShadow();
                 successfulJumps++;
                 CheckForSpeedBoost();
@@ -126,6 +130,7 @@ public class FollowShadow : MonoBehaviour
         Transform shadowTransform;
 
         // Check if the collided object is the additional collider
+        
         if (shadow.CompareTag("AdditionalShadowHitbox"))
         {
             Debug.Log("Additional shadow hitbox detected.");
@@ -136,11 +141,9 @@ public class FollowShadow : MonoBehaviour
         {
             shadowTransform = shadow.transform;
         }
-
         if (shadowTransform != null && !overlappingShadows.Contains(shadowTransform))
         {
             overlappingShadows.Add(shadowTransform);
-            Debug.Log("overlapping shadows: " + overlappingShadows.Count);
         }
     }
 
