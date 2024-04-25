@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 60f;
+    public static float timerDuration = 5f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -17,23 +18,23 @@ public class TimerAndMovement : MonoBehaviour
     private float timeSinceLastPoint = 0f; // Time since the last point was
 
     void Start()
+    {
+        if (timerText == null)
         {
-            if (timerText == null)
-            {
-                Debug.LogError("Text component not found. Make sure the names are correct.");
-            }
-
-            if (gameOverText == null)
-            {
-              Debug.LogError("GameOverText component not found. Make sure the names are correct.");
-            }
-
-            // Get the FollowShadow script
-            followShadow = GameObject.FindObjectOfType<FollowShadow>();
-
-            // Start the timer when the script is first executed
-            StartTimer();
+            Debug.LogError("Text component not found. Make sure the names are correct.");
         }
+
+        if (gameOverText == null)
+        {
+            Debug.LogError("GameOverText component not found. Make sure the names are correct.");
+        }
+
+        // Get the FollowShadow script
+        followShadow = GameObject.FindObjectOfType<FollowShadow>();
+
+        // Start the timer when the script is first executed
+        StartTimer();
+    }
 
     void Update()
     {
@@ -41,46 +42,45 @@ public class TimerAndMovement : MonoBehaviour
         if (!GameManager.Instance.IsGameOver)
         {
             if (isTimerRunning)
+            {
+                currentTime -= Time.deltaTime;
+                totalTime += Time.deltaTime;
+                int currentTimeInt = (int)currentTime;
+                // Update the UI Text component with the current time
+                timerText.text = "Time: " + currentTimeInt.ToString("F0");
+
+                timeSinceLastPoint += Time.deltaTime;
+                if (timeSinceLastPoint >= 1f)
                 {
-                    currentTime -= Time.deltaTime;
-                    totalTime += Time.deltaTime;
-                    int currentTimeInt = (int)currentTime;
-                    // Update the UI Text component with the current time
-                    timerText.text = "Time: " + currentTimeInt.ToString("F0");
-
-                    timeSinceLastPoint += Time.deltaTime;
-                    if (timeSinceLastPoint >= 1f)
-                    {
-                       timeSinceLastPoint -= 1f;
-                       ScoreManager.Instance.AddTimePoints(ShadowManager.boostLevel);
-                    }
-                    timerText.text = "Score: " + ScoreManager.Instance.score;
-
-                     // Check if the timer has reached zero
-                     if (currentTime <= 0f)
-                     {
-                        // Timer has reached zero, perform actions or stop the timer
-                        StopTimer();
-                        Debug.Log("Timer has reached zero!");
-                     }
+                    timeSinceLastPoint -= 1f;
+                    ScoreManager.Instance.AddTimePoints(ShadowManager.boostLevel);
                 }
+
+                timerText.text = "Score: " + ScoreManager.Instance.score;
+
+                // Check if the timer has reached zero
+                if (currentTime <= 0f)
+                {
+                    // Timer has reached zero, perform actions or stop the timer
+                    StopTimer();
+                    Debug.Log("Timer has reached zero!");
+                }
+            }
+
             // Update the light intensity based on the current time
             if (currentTime <= 0)
             {
                 directionalLight.intensity = 0;
             }
-                else if (currentTime < 60)
+            else if (currentTime < 60)
             {
                 directionalLight.intensity = currentTime / 60;
             }
-                else
+            else
             {
                 directionalLight.intensity = 1;
             }
         }
-
-
-
     }
 
     void StartTimer()
@@ -92,19 +92,21 @@ public class TimerAndMovement : MonoBehaviour
 
     void StopTimer()
     {
-      // Stop the timer
-      isTimerRunning = false;
-      timerText.text = ""; // Format the time as needed;
-      gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score + "\nPress any key to restart or " +
-                          "Escape to return to the Main Menu";
-      GameManager.Instance.GameOver();
+        // Stop the timer
+        isTimerRunning = false;
+        timerText.text = ""; // Format the time as needed;
+        gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score +
+                            "\nPress any key to restart or " +
+                            "Escape to return to the Main Menu";
+        // save the highscore
+        SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
+        GameManager.Instance.GameOver();
     }
 
     public static void IncreaseTimer(float timeToAdd)
-        {
-            // Increase the timer (add extra time, adjust as needed)
-            currentTime += timeToAdd;
-            Debug.Log("Timer increased! Current time: " + currentTime);
-        }
+    {
+        // Increase the timer (add extra time, adjust as needed)
+        currentTime += timeToAdd;
+        Debug.Log("Timer increased! Current time: " + currentTime);
+    }
 }
-
