@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ChunksStorage : MonoBehaviour
 {
-    
-    public List<Chunk> Chunks { get; set; }
+
+    public static List<Chunk> Chunks;
 
     void Start()
     {
@@ -14,7 +14,7 @@ public class ChunksStorage : MonoBehaviour
         scanChunks(Chunks);
         
     }
-    // Scans and adds all Tree game objects to the chunks 
+    // Scans and adds all Tree game objects on the Scene to the chunks 
     private void scanChunks(List<Chunk> chunkList)
     {
         GameObject[] allTrees = GameObject.FindGameObjectsWithTag("Tree");
@@ -27,11 +27,13 @@ public class ChunksStorage : MonoBehaviour
                    treePosition.z > chunk.zLowerBound.z && treePosition.z < chunk.zUpperBound.z)
                 {
                     chunk.addTree(tree);
+                    Debug.Log("tree added to chunk:" +chunk.globalCenter);
+                    break;
                 }
             }
         }
     }
-
+//Creates empty chunks and adds them to the list
     private void createChunks(List<Chunk> chunkList)
     {
         float distance = ChunkBoundariesGizmos.chunkDistance;
@@ -43,6 +45,7 @@ public class ChunksStorage : MonoBehaviour
             {
                 chunkList.Add(new Chunk(xCoord + x*distance, xCoord + size + x*distance, zCoord + z*distance, zCoord + size + z*distance,
                     new Vector3(xCoord +size/2 + x*distance, 1.85f, zCoord + size/2 + z*distance)));
+                Debug.Log("chunk created:" +x+ " "+z);
             }
         }
     }
@@ -50,7 +53,7 @@ public class ChunksStorage : MonoBehaviour
 
 
 
-public class Chunk
+public class Chunk : MonoBehaviour
 {
     public Vector3 globalCenter; // Center of the chunk in global coordinates
     public float y = 1.85f;
@@ -65,43 +68,40 @@ public class Chunk
         xUpperBound = new Vector3(x2, y, 0);
         zLowerBound = new Vector3(0, y, z1);
         zUpperBound = new Vector3(0, y, z2);
-        globalCenter = this.globalCenter;
+        this.globalCenter = globalCenter;
     }
         
     // Add a tree to the chunk, return true if the tree is added successfully,
     // false if the tree is already in the chunk
     public bool addTree(GameObject tree)
     {
-        //TODO: transform tree to the local coordinate system!!!
-        //GameObject localCoordinatesTree = tree.transform.position();
-        if (trees.Contains(tree))
-        {
-            return false;
-        }
-        trees.Add(tree);
-        return true;
-    }
-    public bool addConnection(GameObject tree)
-    {
-        if (connectionTrees.Contains(tree))
-        {
-            return false;
-        }
-        connectionTrees.Add(tree);
-        checkConnection(tree);
-        return true;
-    }
 
-    public bool checkConnection(GameObject tree)
+        GameObject localCoordinatesTree = Instantiate(tree);
+            localCoordinatesTree.transform.position = new Vector3(tree.transform.position.x - globalCenter.x,
+                y, tree.transform.position.z - globalCenter.z);
+        if (trees.Contains(localCoordinatesTree))
+        {
+            return false;
+        }
+        trees.Add(localCoordinatesTree);
+        if (checkConnection(tree))
+        {
+            connectionTrees.Add(localCoordinatesTree) ;
+            Debug.Log("connection added to chunk: " +globalCenter);
+        } 
+        return true;
+    }
+    //Check if the tree is close to the boundary of the chunk, rreturn true if it is
+    private bool checkConnection(GameObject tree)
     {
+        //TODO: Connection trees do not get added properly
         Vector3 treePosition = tree.transform.position;
         if (Vector3.Distance(treePosition, xLowerBound) < connectionDistance ||
             Vector3.Distance(treePosition, xUpperBound) < connectionDistance ||
             Vector3.Distance(treePosition, zLowerBound) < connectionDistance ||
             Vector3.Distance(treePosition, zUpperBound) < connectionDistance)
         {
-             return addConnection(tree);
-            
+             return true;
         }
         return false;
     }
