@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        ShadowManager.reset();
         IsGameOver = true;
         if (gameObject.tag == "Survival")
         {

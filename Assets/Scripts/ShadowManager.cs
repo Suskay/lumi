@@ -16,7 +16,7 @@ public class ShadowManager : MonoBehaviour
     public static float boostedSpeedMultiplier = 1.3f;  // Speed multiplier when boosted
     public static float maxBoostedSpeed = 200f; // Maximum speed when boosted
     private bool isRotating = false;
-    private float accumulatedSpeed = 0;
+    private static float accumulatedSpeed = 0;
     float newCount;
 
     void Update()
@@ -74,5 +74,14 @@ public class ShadowManager : MonoBehaviour
     private float boostModifier()
     {
         return Mathf.Sqrt(Mathf.Sqrt(Mathf.Sqrt(boostLevel)))* boostedSpeedMultiplier;
+    }
+
+    public static void reset()
+    {
+        count = 0;
+        rotationSpeed = 0;
+        currentRotation = 0;
+        boostLevel = 0;
+        accumulatedSpeed = 0;
     }
 }
