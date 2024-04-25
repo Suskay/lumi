@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SurvivalMode/SurvivalMenu.unity
     guid: 1c79bb9b738934648bf9e7fab47cae8c
+  - enabled: 1
+    path: Assets/Scenes/DebugMenu/DebugMenu.unity
+    guid: ee84424558f833248b4bc03d5833708d
   m_configObjects: {}

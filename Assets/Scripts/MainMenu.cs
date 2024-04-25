@@ -13,4 +13,9 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Scenes/RaceLevels/RaceLevelMenu");
     }
+
+    public void EnterDebugMenu()
+    {
+        SceneManager.LoadScene("Scenes/DebugMenu/DebugMenu");
+    }
 }
