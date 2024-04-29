@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BlackoutManager : MonoBehaviour {
     public Image vignetteImage;
     public float duration = 2.0f;
+    public bool isAnimationPlaying = false;
 
     private void Start()
     {
@@ -16,7 +17,8 @@ public class BlackoutManager : MonoBehaviour {
         StartCoroutine(AnimateVignette());
     }
 
-    IEnumerator AnimateVignette() {
+    public IEnumerator AnimateVignette() {
+        isAnimationPlaying = true;
         float time = 0;
         Material mat = vignetteImage.material;
         float startRadius = 1.5f; // Start with a circle larger than the screen
@@ -27,6 +29,7 @@ public class BlackoutManager : MonoBehaviour {
             mat.SetFloat("_ClosingRadius", Mathf.Lerp(startRadius, 0f, normalizedTime));
             yield return null;
         }
+        isAnimationPlaying = false;
     }
     
     public void ResetVignette() {

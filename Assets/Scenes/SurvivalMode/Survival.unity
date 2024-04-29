@@ -16285,6 +16285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vignetteImage: {fileID: 1471434785}
   duration: 2
+  isAnimationPlaying: 0
 --- !u!114 &1471434785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17195,6 +17196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209cc746b540d064e91e5cd9f930d339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blackoutManager: {fileID: 1471434784}
 --- !u!1001 &1530169096
 PrefabInstance:
   m_ObjectHideFlags: 0

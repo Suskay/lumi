@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,10 +59,11 @@ public class TimerAndMovement : MonoBehaviour
                 // Check if the timer has reached zero
                 if (currentTime <= 0f)
                 {
-                    blackoutManager.StartVignetteAnimation();
-                    
-                    // Timer has reached zero, perform actions or stop the timer
                     StopTimer();
+                    GameManager.Instance.PlayGameOverSound();
+                    StartCoroutine(StopAfterAnimation());
+
+                    // Timer has reached zero, perform actions or stop the timer
                     Debug.Log("Timer has reached zero!");
                 }
             }
@@ -82,6 +84,12 @@ public class TimerAndMovement : MonoBehaviour
             }
         }
     }
+    
+    IEnumerator StopAfterAnimation()
+    {
+        yield return StartCoroutine(blackoutManager.AnimateVignette());
+        DisplayGameOverMessage();
+    }
 
     void StartTimer()
     {
@@ -92,14 +100,17 @@ public class TimerAndMovement : MonoBehaviour
 
     void StopTimer()
     {
-        
         // Stop the timer
         isTimerRunning = false;
+    }
+
+    void DisplayGameOverMessage()
+    {
         timerText.text = ""; // Format the time as needed;
         gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score +
                             "\nPress any key to restart or " +
                             "Escape to return to the Main Menu";
-        
+
         // save the highscore
         SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
         GameManager.Instance.GameOver();

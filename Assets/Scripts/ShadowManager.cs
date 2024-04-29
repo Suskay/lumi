@@ -18,12 +18,13 @@ public class ShadowManager : MonoBehaviour
     private bool isRotating = false;
     private static float accumulatedSpeed = 0;
     float newCount;
+    public BlackoutManager blackoutManager;
 
     void Update()
     {
         
         // Calculation for angle to rotate shadow around the tree
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && !blackoutManager.isAnimationPlaying)
         {
             if (!isRotating)
             {
