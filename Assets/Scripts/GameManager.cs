@@ -41,6 +41,12 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        // Reset the vignette
+        BlackoutManager blackoutManager = FindObjectOfType<BlackoutManager>();
+        if (blackoutManager != null) {
+            blackoutManager.ResetVignette();
+        }
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         IsGameOver = false;
         SoundManager.Instance.PlayThemeSong();
