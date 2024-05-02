@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 5f;
+    public static float timerDuration = 30f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -76,7 +76,7 @@ public class TimerAndMovement : MonoBehaviour
             else if (currentTime < 30)
             {
                 // Scale the intensity to the new range (0.20 to 1.00)
-                directionalLight.intensity = 0.15f + ((currentTime / 5) * 0.85f);
+                directionalLight.intensity = 0.15f + ((currentTime / 30) * 0.85f);
             }
             else
             {
