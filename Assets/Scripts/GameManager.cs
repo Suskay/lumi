@@ -46,9 +46,13 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         // Reset the vignette
-        BlackoutManager blackoutManager = FindObjectOfType<BlackoutManager>();
-        if (blackoutManager != null) {
-            blackoutManager.ResetVignette();
+        if (gameObject.tag == "Survival")
+        {
+            BlackoutManager blackoutManager = FindObjectOfType<BlackoutManager>();
+            if (blackoutManager != null)
+            {
+                blackoutManager.ResetVignette();
+            }
         }
         
         ShadowManager.reset();

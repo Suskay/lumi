@@ -19,7 +19,7 @@ public class ShadowManager : MonoBehaviour
     private static float accumulatedSpeed = 0;
     float newCount;
     public BlackoutManager blackoutManager;
-
+    
     void Update()
     {
         
