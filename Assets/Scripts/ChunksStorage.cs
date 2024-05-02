@@ -25,11 +25,11 @@ public class ChunksStorage : MonoBehaviour
             {
                 if(treePosition.x > chunk.xLowerBound.x && treePosition.x < chunk.xUpperBound.x &&
                    treePosition.z > chunk.zLowerBound.z && treePosition.z < chunk.zUpperBound.z)
-                {
+                { 
                     chunk.addTree(tree);
                     Debug.Log("tree added to chunk:" +chunk.globalCenter);
                     break;
-                }
+                }   
             }
         }
     }
@@ -87,21 +87,18 @@ public class Chunk : MonoBehaviour
         if (checkConnection(tree))
         {
             connectionTrees.Add(localCoordinatesTree) ;
-            Debug.Log("connection added to chunk: " +globalCenter);
+            print("connection added to chunk: " +globalCenter);
         } 
         return true;
     }
-    //Check if the tree is close to the boundary of the chunk, rreturn true if it is
+    //Check if the tree is close to the boundary of the chunk, return true if it is
     private bool checkConnection(GameObject tree)
     {
-        //TODO: Connection trees do not get added properly
-        Vector3 treePosition = tree.transform.position;
-        if (Vector3.Distance(treePosition, xLowerBound) < connectionDistance ||
-            Vector3.Distance(treePosition, xUpperBound) < connectionDistance ||
-            Vector3.Distance(treePosition, zLowerBound) < connectionDistance ||
-            Vector3.Distance(treePosition, zUpperBound) < connectionDistance)
+        TreeGenConnection connection = tree.GetComponent("TreeGenConnection") as TreeGenConnection;
+        if (connection == null) return false; // if the tree does not have a connection component
+        if (connection.connectionDirection != -1)
         {
-             return true;
+            return true;
         }
         return false;
     }
