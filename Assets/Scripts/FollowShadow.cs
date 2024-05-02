@@ -208,7 +208,7 @@ public class FollowShadow : MonoBehaviour
             Tree tree = newShadow.GetComponentInParent<Tree>();
             if (tree != null && !tree.isUsed)
             {
-                TimerAndMovement.IncreaseTimer(2f);
+                TimerAndMovement.IncreaseTimer(0.7f);
                 tree.UseTree();
                 Debug.Log("Tree reached");
             }

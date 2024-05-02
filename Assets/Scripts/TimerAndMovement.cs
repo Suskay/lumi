@@ -119,7 +119,8 @@ public class TimerAndMovement : MonoBehaviour
     public static void IncreaseTimer(float timeToAdd)
     {
         // Increase the timer (add extra time, adjust as needed)
-        currentTime += timeToAdd;
+        // only increase time until a certain threshhold
+        currentTime = currentTime < 65 ? currentTime + timeToAdd : 65;
         Debug.Log("Timer increased! Current time: " + currentTime);
     }
 }
