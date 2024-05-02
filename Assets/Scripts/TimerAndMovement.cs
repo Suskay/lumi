@@ -1,13 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 5f;
+    public static float timerDuration = 30f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -16,6 +13,7 @@ public class TimerAndMovement : MonoBehaviour
     public Text gameOverText; // New UI Text element for game over message
     public Light directionalLight; // Reference to the directional light
     private float timeSinceLastPoint = 0f; // Time since the last point was
+    public BlackoutManager blackoutManager;
 
     void Start()
     {
@@ -61,8 +59,11 @@ public class TimerAndMovement : MonoBehaviour
                 // Check if the timer has reached zero
                 if (currentTime <= 0f)
                 {
-                    // Timer has reached zero, perform actions or stop the timer
                     StopTimer();
+                    GameManager.Instance.PlayGameOverSound();
+                    StartCoroutine(StopAfterAnimation());
+
+                    // Timer has reached zero, perform actions or stop the timer
                     Debug.Log("Timer has reached zero!");
                 }
             }
@@ -70,17 +71,24 @@ public class TimerAndMovement : MonoBehaviour
             // Update the light intensity based on the current time
             if (currentTime <= 0)
             {
-                directionalLight.intensity = 0;
+                directionalLight.intensity = 0.20f;
             }
-            else if (currentTime < 60)
+            else if (currentTime < 30)
             {
-                directionalLight.intensity = currentTime / 60;
+                // Scale the intensity to the new range (0.20 to 1.00)
+                directionalLight.intensity = 0.15f + ((currentTime / 30) * 0.85f);
             }
             else
             {
                 directionalLight.intensity = 1;
             }
         }
+    }
+    
+    IEnumerator StopAfterAnimation()
+    {
+        yield return StartCoroutine(blackoutManager.AnimateVignette());
+        DisplayGameOverMessage();
     }
 
     void StartTimer()
@@ -94,10 +102,15 @@ public class TimerAndMovement : MonoBehaviour
     {
         // Stop the timer
         isTimerRunning = false;
+    }
+
+    void DisplayGameOverMessage()
+    {
         timerText.text = ""; // Format the time as needed;
         gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score +
                             "\nPress any key to restart or " +
                             "Escape to return to the Main Menu";
+
         // save the highscore
         SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
         GameManager.Instance.GameOver();

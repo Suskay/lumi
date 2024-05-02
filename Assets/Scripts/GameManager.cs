@@ -26,11 +26,10 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        ShadowManager.reset();
         IsGameOver = true;
         if (gameObject.tag == "Survival")
         {
-            SoundManager.Instance.PlayGameOverSound();
+            
         }
         else if (gameObject.tag == "Race")
         {
@@ -38,9 +37,22 @@ public class GameManager : MonoBehaviour
         }
         // Display game over UI here if not done elsewhere
     }
+    
+    public void PlayGameOverSound()
+    {
+        SoundManager.Instance.PlayGameOverSound();
+    }
 
     public void RestartGame()
     {
+        // Reset the vignette
+        BlackoutManager blackoutManager = FindObjectOfType<BlackoutManager>();
+        if (blackoutManager != null) {
+            blackoutManager.ResetVignette();
+        }
+        
+        ShadowManager.reset();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         IsGameOver = false;
         SoundManager.Instance.PlayThemeSong();
