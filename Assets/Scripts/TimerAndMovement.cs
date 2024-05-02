@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 30f;
+    public static float timerDuration = 55f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -54,7 +54,7 @@ public class TimerAndMovement : MonoBehaviour
                     ScoreManager.Instance.AddTimePoints(ShadowManager.boostLevel);
                 }
 
-                timerText.text = "Score: " + ScoreManager.Instance.score;
+                timerText.text = ScoreManager.Instance.score.ToString();
 
                 // Check if the timer has reached zero
                 if (currentTime <= 0f)
@@ -73,10 +73,10 @@ public class TimerAndMovement : MonoBehaviour
             {
                 directionalLight.intensity = 0.20f;
             }
-            else if (currentTime < 30)
+            else if (currentTime < 55)
             {
-                // Scale the intensity to the new range (0.20 to 1.00)
-                directionalLight.intensity = 0.15f + ((currentTime / 30) * 0.85f);
+                // Scale the intensity to the new range (0.15 to 1.00)
+                directionalLight.intensity = 0.15f + ((currentTime / 55) * 0.85f);
             }
             else
             {
