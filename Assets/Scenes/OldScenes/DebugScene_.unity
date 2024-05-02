@@ -160,7 +160,7 @@ PrefabInstance:
     - target: {fileID: 1163243326521299154, guid: d4faf8cd7e294ec478ca6d9c5b428076,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.1885033
+      value: 5.7
       objectReference: {fileID: 0}
     - target: {fileID: 1163243326521299154, guid: d4faf8cd7e294ec478ca6d9c5b428076,
         type: 3}
@@ -170,7 +170,7 @@ PrefabInstance:
     - target: {fileID: 1163243326521299154, guid: d4faf8cd7e294ec478ca6d9c5b428076,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.828049
+      value: -20.78
       objectReference: {fileID: 0}
     - target: {fileID: 1163243326521299154, guid: d4faf8cd7e294ec478ca6d9c5b428076,
         type: 3}
@@ -2300,6 +2300,7 @@ MonoBehaviour:
   timerText: {fileID: 133117060}
   gameOverText: {fileID: 1353950784}
   directionalLight: {fileID: 460303755}
+  blackoutManager: {fileID: 0}
 --- !u!1001 &508456981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2668,7 +2669,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPosition: {x: 0, y: 0, z: 0}
   chunks: []
+  activeChunks: []
   lastChunk: {fileID: 0}
+  chunkRemovalDistance: 50
 --- !u!1001 &551392091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4347,7 +4350,7 @@ PrefabInstance:
     - target: {fileID: 1163243326521299154, guid: 0d022fab51ab2c04285c432bf15baf54,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.44
+      value: -7.88
       objectReference: {fileID: 0}
     - target: {fileID: 1163243326521299154, guid: 0d022fab51ab2c04285c432bf15baf54,
         type: 3}
@@ -4357,7 +4360,7 @@ PrefabInstance:
     - target: {fileID: 1163243326521299154, guid: 0d022fab51ab2c04285c432bf15baf54,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.66
+      value: -17.99
       objectReference: {fileID: 0}
     - target: {fileID: 1163243326521299154, guid: 0d022fab51ab2c04285c432bf15baf54,
         type: 3}
@@ -5255,6 +5258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209cc746b540d064e91e5cd9f930d339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blackoutManager: {fileID: 0}
 --- !u!4 &1571266777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1163243326521299154, guid: d4faf8cd7e294ec478ca6d9c5b428076,
