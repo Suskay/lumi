@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/OldScenes/DebugScene_.unity
     guid: 4e3cbc8cbd88ec04b80e2442f0cd611c
   - enabled: 1
-    path: Assets/Scenes/Survival.unity
+    path: Assets/Scenes/SurvivalMode/Survival.unity
     guid: f1894e9b66d306249b560332004e8ed6
   - enabled: 1
     path: Assets/Scenes/RaceLevels/Race1.unity
@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 308d961caf510ae41b79c9394eab293a
+  - enabled: 1
+    path: Assets/Scenes/SurvivalMode/SurvivalMenu.unity
+    guid: 1c79bb9b738934648bf9e7fab47cae8c
+  - enabled: 1
+    path: Assets/Scenes/DebugMenu/DebugMenu.unity
+    guid: ee84424558f833248b4bc03d5833708d
   m_configObjects: {}

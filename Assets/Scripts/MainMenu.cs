@@ -6,11 +6,16 @@ public class MainMenu : MonoBehaviour
 {
     public void StartSurvial()
     {
-        SceneManager.LoadScene("Scenes/Survival");
+        SceneManager.LoadScene("Scenes/SurvivalMode/SurvivalMenu");
     }
 
     public void StartRace()
     {
         SceneManager.LoadScene("Scenes/RaceLevels/RaceLevelMenu");
+    }
+
+    public void EnterDebugMenu()
+    {
+        SceneManager.LoadScene("Scenes/DebugMenu/DebugMenu");
     }
 }
