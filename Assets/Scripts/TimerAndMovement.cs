@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 55f;
+    public const float TimerDuration = 5f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -60,6 +60,7 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+                    GameManager.Instance.GameOver();
                     GameManager.Instance.PlayGameOverSound();
                     StartCoroutine(StopAfterAnimation());
 
@@ -73,10 +74,10 @@ public class TimerAndMovement : MonoBehaviour
             {
                 directionalLight.intensity = 0.20f;
             }
-            else if (currentTime < 55)
+            else if (currentTime < TimerDuration)
             {
                 // Scale the intensity to the new range (0.15 to 1.00)
-                directionalLight.intensity = 0.15f + ((currentTime / 55) * 0.85f);
+                directionalLight.intensity = 0.15f + ((currentTime / TimerDuration) * 0.85f);
             }
             else
             {
@@ -94,7 +95,7 @@ public class TimerAndMovement : MonoBehaviour
     void StartTimer()
     {
         // Set the initial time on start
-        currentTime = timerDuration;
+        currentTime = TimerDuration;
         isTimerRunning = true;
     }
 
@@ -113,7 +114,6 @@ public class TimerAndMovement : MonoBehaviour
 
         // save the highscore
         SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
-        GameManager.Instance.GameOver();
     }
 
     public static void IncreaseTimer(float timeToAdd)

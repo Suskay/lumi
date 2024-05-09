@@ -9,7 +9,7 @@ public class ReturnToMainMenu : MonoBehaviour
     void Update()
     {
         // check if escape pressend and dialog is active
-        if (Input.GetKeyDown(KeyCode.Escape) && !confirmationDialog.activeSelf )
+        if (Input.GetKeyDown(KeyCode.Escape) && !confirmationDialog.activeSelf && !GameManager.Instance.IsGameOver )
         {
             confirmationDialog.SetActive(true);
         } else if (Input.GetKeyDown(KeyCode.Escape) && confirmationDialog.activeSelf)

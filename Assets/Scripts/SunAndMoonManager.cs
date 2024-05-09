@@ -19,7 +19,7 @@ public class SunAndMoonManager : MonoBehaviour
         float currentTime = TimerAndMovement.currentTime;
         float rotationZ;
 
-        if (currentTime >= 55)
+        if (currentTime >= TimerAndMovement.TimerDuration)
         {
             rotationZ = 90;
         }
@@ -29,7 +29,7 @@ public class SunAndMoonManager : MonoBehaviour
         }
         else
         {
-            int currentSegment = (int)(currentTime / (55 / segments));
+            int currentSegment = (int)(currentTime / (TimerAndMovement.TimerDuration / segments));
             rotationZ = Mathf.Lerp(-90, 90, (float)currentSegment / segments);
         }
 
