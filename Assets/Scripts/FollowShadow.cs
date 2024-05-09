@@ -202,6 +202,7 @@ public class FollowShadow : MonoBehaviour
             {
                 TimerAndMovement.IncreaseTimer(15f);
                 checkpointTree.UseTree();
+                SurvivalStatsManager.IncrementCheckpointsReached();
                 Debug.Log("Checkpoint reached");
             }
 
@@ -210,6 +211,7 @@ public class FollowShadow : MonoBehaviour
             {
                 TimerAndMovement.IncreaseTimer(0.7f);
                 tree.UseTree();
+                SurvivalStatsManager.IncrementTotalJumps();
                 Debug.Log("Tree reached");
             }
 

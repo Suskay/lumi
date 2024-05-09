@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 55f;
+    public const float TimerDuration = 7f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -42,6 +42,7 @@ public class TimerAndMovement : MonoBehaviour
             {
                 currentTime -= Time.deltaTime;
                 totalTime += Time.deltaTime;
+                SurvivalStatsManager.IncrementTimeSurvived(Time.deltaTime);
                 int currentTimeInt = (int)currentTime;
                 // Update the UI Text component with the current time
                 timerText.text = "Time: " + currentTimeInt.ToString("F0");
@@ -93,11 +94,7 @@ public class TimerAndMovement : MonoBehaviour
     void DisplayGameOverMessage()
     {
         timerText.text = ""; // Format the time as needed;
-        gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score +
-                            "\nPress any key to restart or " +
-                            "Escape to return to the Main Menu";
-
-        // save the highscore
+        gameOverText.text = SurvivalStatsManager.GenerateGameOverText();
     }
 
     public static void IncreaseTimer(float timeToAdd)

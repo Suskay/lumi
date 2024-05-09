@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
         
         ShadowManager.reset();
-        
+        SurvivalStatsManager.Reset();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         IsGameOver = false;
         SoundManager.Instance.PlayThemeSong();
