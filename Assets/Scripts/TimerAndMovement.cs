@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 5f;
+    public const float TimerDuration = 55f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
     private float totalTime = 0f;
     private FollowShadow followShadow;
     public Text gameOverText; // New UI Text element for game over message
-    public Light directionalLight; // Reference to the directional light
     private float timeSinceLastPoint = 0f; // Time since the last point was
     public BlackoutManager blackoutManager;
 
@@ -60,6 +59,7 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+                    SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
                     GameManager.Instance.GameOver();
                     GameManager.Instance.PlayGameOverSound();
                     StartCoroutine(StopAfterAnimation());
@@ -67,21 +67,6 @@ public class TimerAndMovement : MonoBehaviour
                     // Timer has reached zero, perform actions or stop the timer
                     Debug.Log("Timer has reached zero!");
                 }
-            }
-
-            // Update the light intensity based on the current time
-            if (currentTime <= 0)
-            {
-                directionalLight.intensity = 0.20f;
-            }
-            else if (currentTime < TimerDuration)
-            {
-                // Scale the intensity to the new range (0.15 to 1.00)
-                directionalLight.intensity = 0.15f + ((currentTime / TimerDuration) * 0.85f);
-            }
-            else
-            {
-                directionalLight.intensity = 1;
             }
         }
     }
@@ -113,7 +98,6 @@ public class TimerAndMovement : MonoBehaviour
                             "Escape to return to the Main Menu";
 
         // save the highscore
-        SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
     }
 
     public static void IncreaseTimer(float timeToAdd)

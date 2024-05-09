@@ -11,7 +11,7 @@ public class SunAndMoonManager : MonoBehaviour
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
-        StartCoroutine(RotateOverTime(-90, 90, 2));
+        StartCoroutine(RotateOverTime(-90, 90, 1.5f));
     }
 
     private void Update()
