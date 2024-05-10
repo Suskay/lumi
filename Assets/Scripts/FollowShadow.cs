@@ -202,14 +202,16 @@ public class FollowShadow : MonoBehaviour
             {
                 TimerAndMovement.IncreaseTimer(15f);
                 checkpointTree.UseTree();
+                SurvivalStatsManager.IncrementCheckpointsReached();
                 Debug.Log("Checkpoint reached");
             }
 
             Tree tree = newShadow.GetComponentInParent<Tree>();
             if (tree != null && !tree.isUsed)
             {
-                TimerAndMovement.IncreaseTimer(2f);
+                TimerAndMovement.IncreaseTimer(0.7f);
                 tree.UseTree();
+                SurvivalStatsManager.IncrementTotalJumps();
                 Debug.Log("Tree reached");
             }
 

@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public static float timerDuration = 55f;
+    public const float TimerDuration = 7f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
     private float totalTime = 0f;
     private FollowShadow followShadow;
     public Text gameOverText; // New UI Text element for game over message
-    public Light directionalLight; // Reference to the directional light
     private float timeSinceLastPoint = 0f; // Time since the last point was
     public BlackoutManager blackoutManager;
 
@@ -43,6 +42,7 @@ public class TimerAndMovement : MonoBehaviour
             {
                 currentTime -= Time.deltaTime;
                 totalTime += Time.deltaTime;
+                SurvivalStatsManager.IncrementTimeSurvived(Time.deltaTime);
                 int currentTimeInt = (int)currentTime;
                 // Update the UI Text component with the current time
                 timerText.text = "Time: " + currentTimeInt.ToString("F0");
@@ -60,27 +60,14 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+                    SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
+                    GameManager.Instance.GameOver();
                     GameManager.Instance.PlayGameOverSound();
                     StartCoroutine(StopAfterAnimation());
 
                     // Timer has reached zero, perform actions or stop the timer
                     Debug.Log("Timer has reached zero!");
                 }
-            }
-
-            // Update the light intensity based on the current time
-            if (currentTime <= 0)
-            {
-                directionalLight.intensity = 0.20f;
-            }
-            else if (currentTime < 55)
-            {
-                // Scale the intensity to the new range (0.15 to 1.00)
-                directionalLight.intensity = 0.15f + ((currentTime / 55) * 0.85f);
-            }
-            else
-            {
-                directionalLight.intensity = 1;
             }
         }
     }
@@ -94,7 +81,7 @@ public class TimerAndMovement : MonoBehaviour
     void StartTimer()
     {
         // Set the initial time on start
-        currentTime = timerDuration;
+        currentTime = TimerDuration;
         isTimerRunning = true;
     }
 
@@ -107,19 +94,14 @@ public class TimerAndMovement : MonoBehaviour
     void DisplayGameOverMessage()
     {
         timerText.text = ""; // Format the time as needed;
-        gameOverText.text = "GAME OVER\nTotal score: " + ScoreManager.Instance.score +
-                            "\nPress any key to restart or " +
-                            "Escape to return to the Main Menu";
-
-        // save the highscore
-        SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
-        GameManager.Instance.GameOver();
+        gameOverText.text = SurvivalStatsManager.GenerateGameOverText();
     }
 
     public static void IncreaseTimer(float timeToAdd)
     {
         // Increase the timer (add extra time, adjust as needed)
-        currentTime += timeToAdd;
+        // only increase time until a certain threshhold
+        currentTime = currentTime < 65 ? currentTime + timeToAdd : 65;
         Debug.Log("Timer increased! Current time: " + currentTime);
     }
 }

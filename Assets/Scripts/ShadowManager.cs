@@ -40,6 +40,8 @@ public class ShadowManager : MonoBehaviour
                 rotationSpeed = startingRotationSpeed + accumulatedSpeed + (20 + (Mathf.Pow(count, 2) + count * 2)) * boostModifier();  // Apply speed boost
                 maxBoostedSpeed = startingRotationSpeed + boostModifier() * startingRotationSpeed;
                 rotationSpeed = Mathf.Min(rotationSpeed, maxBoostedSpeed * boostModifier() / 1.5f); // Limit the speed when boosted
+                // increment total boost time
+                SurvivalStatsManager.IncrementTotalBoostTime(Time.deltaTime);
             }
             else
             {
