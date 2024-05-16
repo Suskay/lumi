@@ -21,6 +21,7 @@ public class ReturnToMainMenu : MonoBehaviour
     public void ConfirmReturnToMainMenu()
     {
         Debug.Log("Returning to main menu");
+        GameManager.Instance.ResetManagers();
         SceneManager.LoadScene("Scenes/MainMenu");
     }
 

@@ -24,7 +24,7 @@ public class ShadowManager : MonoBehaviour
     {
         
         // Calculation for angle to rotate shadow around the tree
-        if (Input.GetKey(KeyCode.Space) && !blackoutManager.isAnimationPlaying)
+        if (Input.GetKey(KeyCode.Space) && !GameManager.Instance.BlockInput())
         {
             if (!isRotating)
             {
