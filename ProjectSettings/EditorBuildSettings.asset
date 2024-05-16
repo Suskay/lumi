@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DebugMenu/DebugMenu.unity
     guid: ee84424558f833248b4bc03d5833708d
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race2.unity
+    guid: 6a926881255a897498e3b44bb7f0f2d3
   m_configObjects: {}

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 7f;
+    public const float TimerDuration = 55f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
