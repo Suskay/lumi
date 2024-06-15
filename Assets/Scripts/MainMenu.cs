@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public void StartSurvial()
     {
-        SceneManager.LoadScene("Scenes/SurvivalMode/SurvivalMenu");
+        SceneManager.LoadScene("Scenes/SurvivalMode/Chunks");
     }
 
     public void StartRace()

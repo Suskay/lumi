@@ -49,7 +49,10 @@ public class ChunkGenerator : MonoBehaviour
         Chunk firstChunk = new Chunk(ChunkDatas[0], startPosition);
         lastChunk = firstChunk;
         firstChunk.spawnChunk();
-        
+        spawnNextChunk();
+        spawnNextChunk();
+        spawnNextChunk();
+        spawnNextChunk();
         
     }
 
