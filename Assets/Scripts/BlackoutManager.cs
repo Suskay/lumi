@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BlackoutManager : MonoBehaviour {
     public Image vignetteImage;
     public float duration = 2.0f;
-    public bool isAnimationPlaying = false;
+    public static bool isAnimationPlaying = false;
 
     private void Start()
     {

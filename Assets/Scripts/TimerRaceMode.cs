@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class TimerRaceMode : MonoBehaviour
             Debug.LogError("Text component not found. Make sure the names are correct.");
         }
 
-        StartTimer();
+        StartCoroutine(StartTimer());
     }
 
     void Update()
@@ -32,8 +33,11 @@ public class TimerRaceMode : MonoBehaviour
         }
     }
 
-    public void StartTimer()
+    public IEnumerator StartTimer()
     {
+        // Wait until the race has started
+        yield return new WaitUntil(() => RaceStartCounter.isRaceStarted);
+
         elapsedTime = 0f;
         isTimerRunning = true;
     }

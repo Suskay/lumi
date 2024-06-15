@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 7f;
+    public const float TimerDuration = 55f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -60,6 +60,7 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+                    SurvivalStatsManager.UpdateTotalPoints(ScoreManager.Instance.score);
                     SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
                     GameManager.Instance.GameOver();
                     GameManager.Instance.PlayGameOverSound();

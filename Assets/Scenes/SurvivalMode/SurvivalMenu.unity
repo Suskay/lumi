@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ff4638debf411691d0238d62f9e855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HighscoreText: {fileID: 0}
+  HighscoreText: {fileID: 379518723}
 --- !u!1 &379518721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ff4638debf411691d0238d62f9e855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HighscoreText: {fileID: 0}
+  HighscoreText: {fileID: 379518723}
 --- !u!1 &1631629824
 GameObject:
   m_ObjectHideFlags: 0
