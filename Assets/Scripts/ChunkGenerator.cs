@@ -1,97 +1,226 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class ChunkGenerator : MonoBehaviour
 {
-    public Vector3 startPosition;
-    public List<Chunk> chunks; //all the chunks from ChunkStorage
-    public List<Chunk> activeChunks; // chunks currently in the scene
+    public static ChunkGenerator Instance { get; private set; } // Singleton, but i didnt implement the singleton pattern fully, i.e. no destroy method if new instance is created
+    public Vector3 startPosition = new Vector3(-100f, 1.85f, -100f);
+    public float spawnThreshold = 50f;
+    public float removeThreshold = 50f; 
+    public List<ChunkData> ChunkDatas; //all the chunks from ChunkStorage
+    public List<Chunk> activeChunks = new List<Chunk>(); // chunks currently in the scene
     public Chunk lastChunk;
-    public float chunkRemovalDistance = 50f;
+    private FollowShadow followShadowScript;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
-        startPosition = GameObject.Find("StartingTree").transform.position + new Vector3(0, 0, -60);
-        chunks = ChunksStorage.Chunks;
-        Chunk newChunk = chunks[Random.Range(0, chunks.Count)];     
-        InstantiateTreesFromChunk(GetNewChunkLocation(newChunk), newChunk);
-        lastChunk = newChunk;
-        activeChunks.Add(newChunk);
+        GameObject lumiObject = GameObject.Find("Lumi");
+        if (lumiObject != null)
+        {
+            followShadowScript = lumiObject.GetComponent<FollowShadow>();
+            if (followShadowScript == null)
+            {
+                Debug.LogError("FollowShadow script not found on Lumi object.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Lumi object not found in the scene.");
+        }
+        
+        ChunkDatas = ChunksStorage.Instance.ChunkDataList;
+        activeChunks = new List<Chunk>();
+        Chunk firstChunk = new Chunk(ChunkDatas[0], startPosition);
+        lastChunk = firstChunk;
+        firstChunk.spawnChunk();
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (checkRemoveChunks())
+        // Get the current tree position
+        Vector3 currentTreePosition = followShadowScript.currentShadowTransform.position;
+
+
+        
+       if(Input.GetKeyUp(KeyCode.Space))
         {
-            Destroy(activeChunks[0].gameObject);
+            if (Vector3.Distance(currentTreePosition, lastChunk.globalCenter) < spawnThreshold)
+            {
+                spawnNextChunk();
+            }
+
+            // Check the distance to the first chunk
+            if (activeChunks.Count > 0 &&
+                Vector3.Distance(currentTreePosition, activeChunks[0].globalCenter) > removeThreshold)
+            {
+                removeChunk();
+            }
+        }
+        
+        
+        
+    }
+
+    //Instantiates the next chunk randomly, adds it into the activeChunks list
+    //Will have infinite loop if not at least one chunk for direction, but not to worry, there are always chunks for all directions
+    private void spawnNextChunk()
+    {
+        TreeData lastChunkConnectionTree = getChunkConnectionTree();
+        ChunkData nextChunk = null;
+        TreeData nextChunkConnectionTree = null;
+        //loop until a chunk with a suitable connection tree is found
+        for (int i = 0; nextChunkConnectionTree == null; i++)
+        {
+            nextChunk = ChunkDatas[Random.Range(0, ChunkDatas.Count)];
+            print(ChunkDatas.Count);
+            nextChunkConnectionTree = getChunkConnectionTree(nextChunk, lastChunkConnectionTree);
+        }
+        //default option if no suitable connection tree is found
+        if (nextChunkConnectionTree == null)
+        {
+            nextChunkConnectionTree = getChunkConnectionTree(ChunkDatas[0], lastChunkConnectionTree);
+        }
+        //Randomise position a bit
+        float randomOffset = Random.Range(1.2f, 1.3f);
+        Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - (nextChunkConnectionTree.position*randomOffset); // not correct yet
+        
+        Chunk newChunk = new Chunk(nextChunk, nextPosition);
+        newChunk.spawnChunk();
+        newChunk.availableDirections[nextChunkConnectionTree.connectionDirection] = false;
+        lastChunk = newChunk;
+    }
+    
+    //Returns a TreeData of potential connectionTree with a connectionDirection that is free,
+    //to be used for connection to the next chunkData
+    // null if no such tree exists
+    private TreeData getChunkConnectionTree()
+    {
+        ChunkData lastChunkData = lastChunk.chunkData;
+        // Gather all the connection trees from the lastChunkData with unused connection directions
+        TreeData connectionTreeData;
+        int availableDirection;
+        for(int c  = 0; c < 10; c++)
+        {
+            int i = Random.Range(0, 4);
+            int iLast = lastChunkData.ConnectionTreeDataList[i].Count-1;
+            if (iLast != -1)
+            {
+                connectionTreeData = lastChunkData.ConnectionTreeDataList[i][Random.Range(0, iLast)];
+                availableDirection = connectionTreeData.connectionDirection;
+                if(lastChunk.availableDirections[availableDirection])
+                {
+                    return connectionTreeData;
+                }
+            }
+        }
+        Debug.Log("No suitable connection tree found in last chunk");
+        return null;
+    }
+    
+    //Returns a TreeData of potential connectionTree with a connectionDirection that is free for toBeConnectedTree
+    private TreeData getChunkConnectionTree(ChunkData chunkData, TreeData toBeConnectedTree)
+    {
+        // Gather all the connection trees from the lastChunkData with unused connection directions
+        TreeData connectionTreeData = null;
+        int availableDirection;
+        for(int c  = 0; c < 10; c++)
+        {
+            
+            int iLast = chunkData.ConnectionTreeDataList[(toBeConnectedTree.connectionDirection + 2) % 4].Count-1;
+            if (iLast != -1)
+            {
+                
+                connectionTreeData = chunkData.ConnectionTreeDataList[(toBeConnectedTree.connectionDirection + 2) % 4][Random.Range(0, iLast)];
+                availableDirection = connectionTreeData.connectionDirection;
+                    return connectionTreeData;
+            }
+            
+            availableDirection = -1;
+            connectionTreeData = null;
+        }
+        Debug.Log("No suitable connection tree found in selected chunk for direction: " + (toBeConnectedTree.connectionDirection+2)%4);
+        return null;
+    }
+    
+    //Removes and destroys the first chunk from the activeChunks list
+    private void removeChunk()
+    {
+            Chunk chunk = activeChunks[0];
             activeChunks.RemoveAt(0);
-        }
-    }
-    public void InstantiateTreesFromChunk(Vector3 chunkCenter, Chunk chunk)
-    {
-        activeChunks.Add(chunk);
-        foreach (GameObject tree in chunk.trees)
-        {
-            // Add the chunk's center to the tree's local position to get its global position
-            Vector3 globalTreePosition = chunkCenter + tree.transform.position;
-            Instantiate(tree, globalTreePosition, Quaternion.identity);
-        }
-    } 
-    
-    
-    // determines the location where the next chunk should be placed
-    public Vector3 GetNewChunkLocation(Chunk newChunk)
-    {
-        // Select a random connection point from the last chunk
-        GameObject lastConnectionTree = lastChunk.connectionTrees[Random.Range(0, lastChunk.connectionTrees.Count)];
-        TreeGenConnection lastConnection = lastConnectionTree.GetComponent<TreeGenConnection>();
 
-        // Find a connection point in the new chunk with the same connection direction
-        GameObject newConnectionTree = null;
-        foreach (GameObject tree in newChunk.connectionTrees)
-        {
-            TreeGenConnection connection = tree.GetComponent<TreeGenConnection>();
-            if (connection.connectionDirection == lastConnection.connectionDirection + 2 % 4)
+            List<GameObject> treesToRemove = new List<GameObject>();
+            foreach (GameObject tree in chunk.trees)
             {
-                newConnectionTree = tree;
-                break;
+                treesToRemove.Add(tree);
             }
+
+            foreach (GameObject tree in treesToRemove)
             {
-                newConnectionTree = tree;
-                break;
+                chunk.trees.Remove(tree);
+                Destroy(tree);
             }
-        }
-
-        // If no matching connection point was found, return the current chunk center
-        if (newConnectionTree == null)
-        {
-            return lastChunk.globalCenter;
-        }
-
-        // Calculate the new chunk's center such that the distance between the connection points is less than connectionLength
-        Vector3 connectionOffset = newConnectionTree.transform.position - lastConnectionTree.transform.position;
-        Vector3 newChunkCenter = lastChunk.globalCenter + connectionOffset;
-
-        // Ensure the distance between the connection points is less than connectionLength
-        if (Vector3.Distance(lastConnectionTree.transform.position, newConnectionTree.transform.position) > 2)
-        {
-            newChunkCenter = lastChunk.globalCenter + (connectionOffset.normalized * 2);
-        }
-
-        return newChunkCenter;
-    }
-
-    //Checks if player has gotten to far ahead,
-    // return true if distance to the last chunk is less than chunkRemovalDistance
-    private bool checkRemoveChunks()
-    {
-        float distance = Vector3.Distance(GameObject.Find("Lumi").transform.position, lastChunk.globalCenter);
-        if(distance < chunkRemovalDistance)
-        {
-            return true;
-        }
-        return false;
+            Debug.Log("chunk before Destroy: " + chunk.globalCenter);
+            
+        
     }
     
+    public class Chunk
+    {
+        public ChunkData chunkData;
+        public List<GameObject> trees;
+        public bool[] availableDirections = {false, true, true, true}; // 0 = south, 1 = west, 2 = north, 3 = east
+        public Vector3 globalCenter;
+        public Chunk(ChunkData chunkData, Vector3 globalCenter)
+        {
+            this.chunkData = chunkData;
+            this.globalCenter = globalCenter;
+            trees = new List<GameObject>();
+        }
+        
+        // Spawns the chunk at the given center with the given chunkData
+        public Chunk spawnChunk()
+        {
+            Vector3 chunkCenter = globalCenter;
+            Instance.activeChunks.Add(this);
+            foreach (TreeData tree in chunkData.TreeDataList)
+            {
+                // Add the chunkData's center to the tree's local position to get its global position
+                Vector3 globalTreePosition = chunkCenter + tree.position;
+                switch (tree.treeType)
+                {
+                    case 0:
+                        trees.Add(Instantiate(TreeStorage.Instance.DefaultTree, globalTreePosition, Quaternion.identity));
+                        break;
+                    case 1:
+                        trees.Add(Instantiate(TreeStorage.Instance.BirchTree, globalTreePosition, Quaternion.identity));
+                        break;
+                    case 2:
+                        trees.Add(Instantiate(TreeStorage.Instance.CheckpointTree, globalTreePosition, Quaternion.identity));
+                        break;
+                
+                }
+            }
+
+            return this;
+        } 
+    }
 }

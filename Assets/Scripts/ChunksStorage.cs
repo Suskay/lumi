@@ -1,105 +1,140 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChunksStorage : MonoBehaviour
 {
-
-    public static List<Chunk> Chunks;
-
+    public static ChunksStorage Instance { get; private set; }
+    public List<ChunkData> ChunkDataList;
+    public int rows = 1; // rows of chunks
+    public int columns = 2; // columns of chunks
+    public Vector3 [] globalChunkCenters; // array of global chunk centers
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject); 
+            // This line prevents the object from being destroyed when a new scene is loaded
+        }
+    }
     void Start()
     {
-        Chunks = new List<Chunk>();
-        createChunks(Chunks);
-        scanChunks(Chunks);
+        ChunkDataList = new List<ChunkData>();
+        createChunks(ChunkDataList);
+        scanChunks(ChunkDataList);
+        SceneManager.LoadScene("Scenes/SurvivalMode/Survival");
         
     }
     // Scans and adds all Tree game objects on the Scene to the chunks 
-    private void scanChunks(List<Chunk> chunkList)
+    private void scanChunks(List<ChunkData> chunkList)
     {
-        GameObject[] allTrees = GameObject.FindGameObjectsWithTag("Tree");
-        foreach (GameObject tree in allTrees)
+        
+        ChunkData chunkData = new ChunkData();
+        foreach (GameObject tree in TreeStorage.Instance.AllTrees)
         {
             Vector3 treePosition = tree.transform.position;
-            foreach (Chunk chunk in chunkList)
-            {
-                if(treePosition.x > chunk.xLowerBound.x && treePosition.x < chunk.xUpperBound.x &&
-                   treePosition.z > chunk.zLowerBound.z && treePosition.z < chunk.zUpperBound.z)
+            for (int i = 0; i < globalChunkCenters.Length; i++)
+            {   Vector3 globalCenter = globalChunkCenters[i];
+                float xLowerBound = globalCenter.x - ChunkData.size / 2;
+                float xUpperBound = globalCenter.x + ChunkData.size / 2;
+                float zLowerBound = globalCenter.z - ChunkData.size / 2;
+                float zUpperBound = globalCenter.z + ChunkData.size / 2;
+                
+                if(treePosition.x > xLowerBound && treePosition.x < xUpperBound &&
+                   treePosition.z > zLowerBound && treePosition.z < zUpperBound)
                 { 
-                    chunk.addTree(tree);
-                    Debug.Log("tree added to chunk:" +chunk.globalCenter);
+                    ChunkDataList[i].addTree(tree, globalCenter);
+                    Debug.Log("tree added to chunkData with center:" + globalCenter);
                     break;
                 }   
             }
         }
     }
-//Creates empty chunks and adds them to the list
-    private void createChunks(List<Chunk> chunkList)
+//Creates empty ChunkDataList with as many chunks as cells in the globalChunkCenters
+//Populates globalChunkCenters with global coordinates of chunk centers
+    private void createChunks(List<ChunkData> chunkList)
     {
-        float distance = ChunkBoundariesGizmos.chunkDistance;
-        float size = ChunkBoundariesGizmos.chunkWidth;
-        float xCoord = -15f, zCoord = -15f;
-        for (float x = 0f; x < 2f; x++) // 2 chunks in x direction
+        float totalChunkDistance = ChunkBoundariesGizmos.totalChunkDistance;
+        globalChunkCenters = new Vector3[rows*columns];
+        for (int x = 0; x < rows; x++)
         {
-            for (float z = 0f; z < 1f; z++) // 1 chunk in z direction
+            for (int z = 0; z < columns; z++)
             {
-                chunkList.Add(new Chunk(xCoord + x*distance, xCoord + size + x*distance, zCoord + z*distance, zCoord + size + z*distance,
-                    new Vector3(xCoord +size/2 + x*distance, 1.85f, zCoord + size/2 + z*distance)));
-                Debug.Log("chunk created:" +x+ " "+z);
+                chunkList.Add(new ChunkData());
+                globalChunkCenters[x * rows + z] =  new Vector3(x * totalChunkDistance, ChunkData.Y, z * totalChunkDistance);
             }
         }
     }
 }
 
 
-
-public class Chunk : MonoBehaviour
+public class TreeData // stores all essential information about trees
 {
-    public Vector3 globalCenter; // Center of the chunk in global coordinates
-    public float y = 1.85f;
-    public float connectionDistance = 2f;
-    public List<GameObject> trees = new List<GameObject>();
-    public List<GameObject> connectionTrees = new List<GameObject>();
-    public Vector3 xLowerBound, xUpperBound, zLowerBound, zUpperBound; // Boundaries of the chunk
-
-    public Chunk(float x1, float x2, float z1, float z2, Vector3 globalCenter)
+    public Vector3 position;
+    public int connectionDirection;
+    public int treeType; // 0 - default, 1 - birch, 2 - checkpoint
+    
+    public TreeData(Vector3 position, int connectionDirection, int treeType)
     {
-        xLowerBound = new Vector3(x1, y, 0);
-        xUpperBound = new Vector3(x2, y, 0);
-        zLowerBound = new Vector3(0, y, z1);
-        zUpperBound = new Vector3(0, y, z2);
-        this.globalCenter = globalCenter;
+        this.position = position;
+        this.connectionDirection = connectionDirection;
+        this.treeType = treeType;
     }
+}
+
+public class ChunkData
+{
+    
+    public const float Y = 1.85f;
+    public List<TreeData> TreeDataList;
+    public List<TreeData>[] ConnectionTreeDataList; // each list corresponds to a direction of connection
+    public const float size = 30f; // length of a side of the chunk square
+
+    public ChunkData()
+    {
+        TreeDataList = new List<TreeData>();
+        ConnectionTreeDataList = new List<TreeData>[4];
+        for (int i = 0; i < 4; i++)
+        {
+            ConnectionTreeDataList[i] = new List<TreeData>();
+        }
+    }
+
+
+    
+    // takes as a parameter scanned tree  and coordinates of the scanned chunk center
+    // Adds information about tree to the chunkData
+    public void addTree(GameObject tree, Vector3 globalCenter)
+    {   
+        if(tree == null)
+        {
+            Debug.Log("tree is null");
+        }
+        TreeGenConnection treeGenConnection = tree.GetComponent<TreeGenConnection>();
+        TreeData localCoordinatesTreeData = new TreeData(tree.transform.position - globalCenter,
+                                                                treeGenConnection.connectionDirection, 0);
+        if(TreeDataList == null)
+        {
+            Debug.Log("TreeDataList is null");
+        }
+        TreeDataList.Add(localCoordinatesTreeData);
+        addPossibleConnection(localCoordinatesTreeData, globalCenter);
+       
         
-    // Add a tree to the chunk, return true if the tree is added successfully,
-    // false if the tree is already in the chunk
-    public bool addTree(GameObject tree)
-    {
-
-        GameObject localCoordinatesTree = Instantiate(tree);
-            localCoordinatesTree.transform.position = new Vector3(tree.transform.position.x - globalCenter.x,
-                y, tree.transform.position.z - globalCenter.z);
-        if (trees.Contains(localCoordinatesTree))
-        {
-            return false;
-        }
-        trees.Add(localCoordinatesTree);
-        if (checkConnection(tree))
-        {
-            connectionTrees.Add(localCoordinatesTree) ;
-            print("connection added to chunk: " +globalCenter);
-        } 
-        return true;
     }
-    //Check if the tree is close to the boundary of the chunk, return true if it is
-    private bool checkConnection(GameObject tree)
+    //Adds tree to a corresponding ConnectionTreeDataList if applicable
+    private void addPossibleConnection(TreeData tree, Vector3 globalCenter)
     {
-        TreeGenConnection connection = tree.GetComponent("TreeGenConnection") as TreeGenConnection;
-        if (connection == null) return false; // if the tree does not have a connection component
-        if (connection.connectionDirection != -1)
+        if(tree.connectionDirection != -1)
         {
-            return true;
+            ConnectionTreeDataList[tree.connectionDirection].Add(tree);
+            Debug.Log("connection added to chunkData: " + globalCenter);
         }
-        return false;
     }
 }
