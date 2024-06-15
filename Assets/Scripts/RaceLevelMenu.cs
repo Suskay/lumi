@@ -10,7 +10,7 @@ public class RaceLevelMenu : MonoBehaviour
     public TextMeshProUGUI LevelNameText; // Reference to the LevelNameText UI element
     private static int selectedLevelIndex = 0; // Variable to hold the index of the selected level
     private List<string> levels = new List<string> { "Race1", "Race2" }; // List of level names
-
+    public StarDisplay starDisplayComponent;
 
 
     public void BackToMainMenu()
@@ -41,7 +41,9 @@ public class RaceLevelMenu : MonoBehaviour
     private void SelectRaceLevel(int levelIndex)
     {
         DisplayHighscores(levels[levelIndex]);
-        LevelNameText.text = levels[levelIndex]; // Set the text of the LevelNameText UI element to the name of the selected level
+        updateStarDisplay(levels[levelIndex]);
+        LevelNameText.text =
+            levels[levelIndex]; // Set the text of the LevelNameText UI element to the name of the selected level
     }
 
     public void StartRaceLevel()
@@ -79,5 +81,18 @@ public class RaceLevelMenu : MonoBehaviour
         }
 
         HighscoreText.text = highscoreString;
+    }
+
+    public void updateStarDisplay(string level)
+    {
+        List<float> highscores = RaceHighscoreManager.Instance.LoadHighscores(level);
+        int bestStars = 0;
+        if (highscores.Count > 0)
+            bestStars = StarRatingManager.Instance.GetStarRating(level, highscores[0]);
+
+        Debug.Log(bestStars);
+
+        Debug.Log("starDisplayComponent found!");
+        starDisplayComponent.SetStars(bestStars);
     }
 }
