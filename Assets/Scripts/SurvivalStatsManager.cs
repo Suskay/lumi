@@ -7,7 +7,9 @@ public class SurvivalStatsManager : MonoBehaviour
     public static int TotalJumps { get; private set; }
     public static float TotalBoostTime { get; private set; }
     public static int CheckpointsReached { get; private set; }
-    
+
+    public static int TotalPoints { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -42,14 +44,26 @@ public class SurvivalStatsManager : MonoBehaviour
 
     public static string GenerateGameOverText()
     {
-        return $"GAME OVER\nTime Survived: {TimeSurvived:F2} seconds\nTotal Jumps: {TotalJumps}\nTotal Boost Time: {TotalBoostTime:F2} seconds\nCheckpoints Reached: {CheckpointsReached}\nPress any key to restart or Escape to return to the Main Menu";
+        return
+            $"GAME OVER\nTime Survived: {TimeSurvived:F2} seconds\n" +
+            $"Total Jumps: {TotalJumps}\n" +
+            $"Total Boost Time: {TotalBoostTime:F2} seconds\n" +
+            $"Checkpoints Reached: {CheckpointsReached}\n" +
+            $"Total Points: {TotalPoints}\n" +
+            $"Press any key to restart or Escape to return to the Main Menu";
     }
     
+    public static void UpdateTotalPoints(int points)
+    {
+        TotalPoints = points;
+    }
+
     public static void Reset()
     {
         TimeSurvived = 0;
         TotalJumps = 0;
         TotalBoostTime = 0;
         CheckpointsReached = 0;
+        TotalPoints = 0;
     }
 }

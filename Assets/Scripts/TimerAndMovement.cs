@@ -60,6 +60,7 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+                    SurvivalStatsManager.UpdateTotalPoints(ScoreManager.Instance.score);
                     SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
                     GameManager.Instance.GameOver();
                     GameManager.Instance.PlayGameOverSound();

@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
-  LevelNameText: {fileID: 0}
+  LevelNameText: {fileID: 1631629826}
 --- !u!1 &379518721
 GameObject:
   m_ObjectHideFlags: 0

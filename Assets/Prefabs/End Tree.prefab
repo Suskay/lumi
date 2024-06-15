@@ -334,8 +334,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 317638846712179163, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
         type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 317638846712179163, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 317638846712179163, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
+        type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 317638846712179163, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 16.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 317638846712179163, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 9.15
       objectReference: {fileID: 0}
     - target: {fileID: 1698870280184983144, guid: c02fd7bded3244c4e8ca75fff31ec9cb,
         type: 3}
