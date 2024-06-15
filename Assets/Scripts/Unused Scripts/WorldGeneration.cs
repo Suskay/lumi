@@ -7,8 +7,8 @@ public class WorldGeneration : MonoBehaviour
     public GameObject treePrefab;
     public float minTreeDistance = 1f;
     public float maxTreeDistance = 3f;
-    public int chunkLength = 10; // Length of a chunk along the path
-    public int chunkWidth = 10; // Width of a chunk perpendicular to the path
+    public int chunkLength = 10; // Length of a chunkData along the path
+    public int chunkWidth = 10; // Width of a chunkData perpendicular to the path
     public float pathWidth = 2f; // Width of the clear path
 
     private Queue<GameObject> chunks = new Queue<GameObject>();
@@ -16,14 +16,14 @@ public class WorldGeneration : MonoBehaviour
 
     void Start()
     {
-        // Initialize the first chunk
+        // Initialize the first chunkData
         nextChunkPosition = transform.position;
         SpawnChunk();
     }
 
     void Update()
     {
-        // Generate new chunk if player is close to the end of the current chunk
+        // Generate new chunkData if player is close to the end of the current chunkData
         if (Vector3.Distance(transform.position, nextChunkPosition) < maxTreeDistance * chunkLength)
         {
             SpawnChunk();
@@ -34,7 +34,7 @@ public class WorldGeneration : MonoBehaviour
 
     private void SpawnChunk()
     {
-        GameObject newChunk = new GameObject("Chunk");
+        GameObject newChunk = new GameObject("ChunkData");
 
         for (int i = 0; i < chunkLength; i++)
         {
@@ -48,13 +48,13 @@ public class WorldGeneration : MonoBehaviour
             }
         }
 
-        // Update nextChunkPosition for the next chunk
+        // Update nextChunkPosition for the next chunkData
         nextChunkPosition += Vector3.forward * chunkLength * maxTreeDistance;
 
-        // Add the new chunk to the queue
+        // Add the new chunkData to the queue
         chunks.Enqueue(newChunk);
 
-        // Optional: Remove oldest chunk if there are too many
+        // Optional: Remove oldest chunkData if there are too many
     }
 
     private void SpawnTree(Vector3 position, Transform parent)
