@@ -36,11 +36,10 @@ public class TimerRaceMode : MonoBehaviour
     public IEnumerator StartTimer()
     {
         // Wait until the race has started
-        // yield return new WaitUntil(() => RaceStartCounter.isRaceStarted);
+        yield return new WaitUntil(() => RaceStartCounter.isRaceStarted);
 
         elapsedTime = 0f;
-        isTimerRunning = true;
-        return null;
+        isTimerRunning = true; 
     }
 
     public void StopTimer()
