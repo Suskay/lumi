@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
     {
         ShadowManager.reset();
         SurvivalStatsManager.Reset();
-        RaceStartCounter.isRaceStarted = false;
+        // RaceStartCounter.isRaceStarted = false;
     }
 
     public Boolean BlockInput()
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
         }
         else if (gameObject.CompareTag("Race"))
         {
-            return IsGameOver || !RaceStartCounter.isRaceStarted;
+           //  return IsGameOver || !RaceStartCounter.isRaceStarted;
         }
 
         return false;
