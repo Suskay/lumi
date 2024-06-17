@@ -47,7 +47,7 @@ public class FollowShadow : MonoBehaviour
                 // Check if the script is found
                 if (currentShadowOverlapDetector != null)
                 {
-                    Debug.Log("Overlap detector found");
+                    
                     currentShadowTransform = startObject.transform.Find("RotationWrapper/Shadow");
                     currentShadowOverlapDetector.isCurrent = true;
                 }
