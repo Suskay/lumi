@@ -70,10 +70,12 @@ public class GameManager : MonoBehaviour
         {
             if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !BlackoutManager.isAnimationPlaying)
             {
+                Debug.Log("Restarting");
                 RestartGame();
             }
             else if (Input.GetKeyDown(KeyCode.Escape) && !BlackoutManager.isAnimationPlaying)
             {
+                Debug.Log("Pressing escape");
                 if (gameObject.tag == "Survival")
                 {
                     SceneManager.LoadScene("MainMenu");
