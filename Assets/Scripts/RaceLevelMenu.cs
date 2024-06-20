@@ -8,10 +8,24 @@ public class RaceLevelMenu : MonoBehaviour
 {
     public TextMeshProUGUI HighscoreText; // Reference to the HighscoreText UI element
     public TextMeshProUGUI LevelNameText; // Reference to the LevelNameText UI element
+    public RawImage LevelPreview; // Reference to the Level Preview UI element
+    public Texture[] LevelThumbnails; // Array to hold the level thumbnails
     private static int selectedLevelIndex = 0; // Variable to hold the index of the selected level
-    private List<string> levels = new List<string> { "Race1", "Race2", "Race3", "Race10" }; // List of level names
+
+    private List<string> levels = new List<string> // List of level names
+    {
+        "Race1",
+        "Race2",
+        "Race3",
+        "Race4",
+        "Race5",
+        // "Race10"
+    };
+
     public StarDisplay starDisplayComponent;
 
+    public Button ConfirmLevelButton; // Reference to the ConfirmLevelButton UI element
+    public TextMeshProUGUI ConfirmLevelButtonText; // Reference to the text component of the ConfirmLevelButton
 
     public void BackToMainMenu()
     {
@@ -44,21 +58,53 @@ public class RaceLevelMenu : MonoBehaviour
         updateStarDisplay(levels[levelIndex]);
         LevelNameText.text =
             levels[levelIndex]; // Set the text of the LevelNameText UI element to the name of the selected level
+
+        if (levelIndex >= 0 && levelIndex < LevelThumbnails.Length)
+        {
+            LevelPreview.texture = LevelThumbnails[levelIndex];
+        }
+
+        // Check if the level is unlocked
+        bool isUnlocked = IsLevelUnlocked(levelIndex);
+        if (isUnlocked)
+        {
+            // If the level is unlocked, display the thumbnail and button normally
+            LevelPreview.color = Color.white;
+            ConfirmLevelButton.interactable = true;
+            ConfirmLevelButtonText.text = "START";
+            // set to hexadecimal color code
+            ConfirmLevelButtonText.color = Color.black; // Change text
+        }
+        else
+        {
+            // If the level is not unlocked, grey out the thumbnail and button
+            LevelPreview.color = Color.gray;
+            ConfirmLevelButton.interactable = false;
+            ConfirmLevelButtonText.text = "LOCKED";
+            ConfirmLevelButtonText.color = Color.gray;
+        }
     }
 
     public void StartRaceLevel()
     {
-        if (selectedLevelIndex >= 0 && selectedLevelIndex < levels.Count)
+        if (IsLevelUnlocked(selectedLevelIndex))
         {
-            Debug.Log("Starting" + selectedLevelIndex);
-            string levelToLoad = levels[selectedLevelIndex];
-            Debug.Log("Selected Level Index: " + selectedLevelIndex);
-            Debug.Log("Loading Level: " + levelToLoad);
-            SceneManager.LoadScene(levelToLoad);
+            if (selectedLevelIndex >= 0 && selectedLevelIndex < levels.Count)
+            {
+                Debug.Log("Starting" + selectedLevelIndex);
+                string levelToLoad = levels[selectedLevelIndex];
+                Debug.Log("Selected Level Index: " + selectedLevelIndex);
+                Debug.Log("Loading Level: " + levelToLoad);
+                SceneManager.LoadScene(levelToLoad);
+            }
+            else
+            {
+                Debug.Log("No level selected");
+            }
         }
         else
         {
-            Debug.Log("No level selected");
+            Debug.Log("Level is locked");
         }
     }
 
@@ -94,5 +140,19 @@ public class RaceLevelMenu : MonoBehaviour
 
         Debug.Log("starDisplayComponent found!");
         starDisplayComponent.SetStars(bestStars);
+    }
+
+    private bool IsLevelUnlocked(int levelIndex)
+    {
+        // The first level is always unlocked
+        if (levelIndex == 0)
+        {
+            return true;
+        }
+
+        // A level is unlocked if there is a highscore for the previous level
+        string previousLevelName = levels[levelIndex - 1];
+        List<float> highscores = RaceHighscoreManager.Instance.LoadHighscores(previousLevelName);
+        return highscores.Count > 0;
     }
 }

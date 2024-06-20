@@ -460,7 +460,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
   LevelNameText: {fileID: 1631629826}
+  LevelPreview: {fileID: 0}
+  LevelThumbnails: []
   starDisplayComponent: {fileID: 0}
+  ConfirmLevelButton: {fileID: 0}
+  ConfirmLevelButtonText: {fileID: 0}
 --- !u!1 &379518721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,7 +1604,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
   LevelNameText: {fileID: 1631629826}
+  LevelPreview: {fileID: 0}
+  LevelThumbnails: []
   starDisplayComponent: {fileID: 0}
+  ConfirmLevelButton: {fileID: 0}
+  ConfirmLevelButtonText: {fileID: 0}
 --- !u!1 &1415900186
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,7 +2111,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
   LevelNameText: {fileID: 1631629826}
+  LevelPreview: {fileID: 156530922}
+  LevelThumbnails:
+  - {fileID: 2800000, guid: 01f9fe83fa271d1479a8da1ad7e9cdf1, type: 3}
+  - {fileID: 2800000, guid: 1f338bae1a6f59f489843bbe1543a8c8, type: 3}
+  - {fileID: 2800000, guid: ebf600c781098564bbd70de71a06565d, type: 3}
+  - {fileID: 2800000, guid: fa0340a76ec45ff419925f9ca2947c07, type: 3}
+  - {fileID: 2800000, guid: 2b04535fbbea9fb4fb993cc89633bec3, type: 3}
   starDisplayComponent: {fileID: 584206109}
+  ConfirmLevelButton: {fileID: 1338213820}
+  ConfirmLevelButtonText: {fileID: 443674997}
 --- !u!1 &1962815869
 GameObject:
   m_ObjectHideFlags: 0
