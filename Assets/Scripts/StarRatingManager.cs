@@ -21,9 +21,9 @@ public class StarRatingManager : MonoBehaviour
 
         starThresholds = new Dictionary<string, (float, float)>
         {
-            { "Race1", (20f, 12f) }, // Two stars if < 60s, three stars if < 45s
-            { "Race2", (90f, 75f) },
-            { "Race3", (120f, 100f) },
+            { "Race1", (20f, 12f) }, // Two stars if < 20s, three stars if < 12s
+            { "Race2", (20f, 15f) },
+            { "Race3", (12f, 8f) },
             { "Race4", (150f, 130f) }
         };
     }
