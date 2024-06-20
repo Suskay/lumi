@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class ChunkGenerator : MonoBehaviour
 {
     public static ChunkGenerator Instance { get; private set; } // Singleton, but i didnt implement the singleton pattern fully, i.e. no destroy method if new instance is created
-    public Vector3 startPosition = new Vector3(-100f, 1.85f, -100f);
+    public Vector3 startPosition = new Vector3(0, 1.85f, 0);
     public float spawnThreshold = 50f;
     public float removeThreshold = 50f; 
     public List<ChunkData> ChunkDatas; //all the chunks from ChunkStorage

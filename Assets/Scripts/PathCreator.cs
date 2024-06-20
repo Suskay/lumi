@@ -5,13 +5,21 @@ using UnityEngine;
 public class PathCreator : MonoBehaviour
 {
     private ChunkGenerator chunkGenerator;
-    private List<Vector3> pathPoints = new List<Vector3>();
-    private Vector3 lastPosition = ChunkGenerator.Instance.startPosition;
+    private List<Vector3> pathPoints = new List<Vector3>(); // exists for gizmos only
+    private Vector3 lastPoint = ChunkGenerator.Instance.startPosition;
+    private Vector3 midPoint;
+    private Vector3 startPoint;
+    private bool isEven;
+    public GameObject footprint;
+    
     // Start is called before the first frame update
     void Start()
     {
+        lastPoint = GameObject.Find("StartingTree").transform.position;
         chunkGenerator = ChunkGenerator.Instance;
         chunkGenerator.ChunkGenerated += OnChunkGenerated;
+        isEven = true;
+
     }
 
     // Update is called once per frame
@@ -24,43 +32,68 @@ public class PathCreator : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Vector3 point in pathPoints)
         {
-            if (point.Equals(pathPoints[0]))
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(point, 1f);
-                Gizmos.color = Color.red;
-            }
-            else
-            {
                 Gizmos.DrawSphere(point, 0.5f);
-            }
-            
         }
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(startPoint, 1f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(midPoint, 1f);
+        Gizmos.color = Color.yellow;
+        Debug.Log("Last position is " + lastPoint);
+        Gizmos.DrawSphere(lastPoint, 1f);
     }
     private void OnChunkGenerated(Vector3 newChunkCenter)
     {
-        
-        createSpline(lastPosition, newChunkCenter);
-        Debug.Log("Spline created from " + lastPosition + " to " + newChunkCenter);
-        lastPosition = newChunkCenter;
-        
+        startPoint = midPoint;
+        midPoint = lastPoint;
+        lastPoint = newChunkCenter;
+        isEven = !isEven;
+        if (isEven)
+        {
+            instantiateFootprints(createSpline(startPoint, midPoint,lastPoint));
+        }
+        Debug.Log("Spline created from " + startPoint+ " to " + lastPoint);
     }
 
-    private void createSpline(Vector3 p1, Vector3 p2)
+    private List<Vector3> createSpline(Vector3 start, Vector3 mid, Vector3 goal)
     {
-        const float interval = 0.1f;
+        List<Vector3> pathPoints = new List<Vector3>();
+        const float interval = 0.05f;
         float currentInterval = 0f;
-        Vector3 midPoint = p1 + (p2-p1)/2 + new Vector3(50,0,0);
         while(currentInterval < 1)
         {
-            Vector3 m1 = Vector3.Lerp(p1,midPoint,currentInterval);
-            Vector3 m2 = Vector3.Lerp(midPoint,p2,currentInterval);
+            Vector3 m1 = Vector3.Lerp(start,mid,currentInterval);
+            Vector3 m2 = Vector3.Lerp(mid,goal,currentInterval);
             Vector3 splinePoint = Vector3.Lerp(m1,m2,currentInterval);
+            splinePoint = new Vector3(splinePoint.x, 0.1f, splinePoint.z);
             pathPoints.Add(splinePoint);
             currentInterval += interval;
         }
+        this.pathPoints.AddRange(pathPoints);
+        return pathPoints;
     }
-    
-    
+// Instantiates footprints on the path generated with spline
+    private void instantiateFootprints(List<Vector3> path)
+    {
+        Vector3 previousPoint = path[0];
+        
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            Vector3 point = path[i];
+
+            // Calculate the direction from the previous point to the current point
+            Vector3 direction = (point - previousPoint).normalized;
+
+            
+            
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.left, direction);
+
+            // Instantiate the footprint with the calculated rotation
+            Instantiate(footprint, point, rotation);
+
+            previousPoint = point;
+        }
+    }
     
 }
