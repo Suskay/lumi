@@ -35,18 +35,15 @@ public class StarRatingManager : MonoBehaviour
             var thresholds = starThresholds[levelName];
             if (time <= thresholds.threeStar)
             {
-                Debug.Log("Three stars");
                 return 3;
             }
                 
             else if (time <= thresholds.twoStar)
             {
-                Debug.Log("Two stars");
                 return 2;
             }
         }
 
-        Debug.Log("One star");
         return 1;
     }
 
