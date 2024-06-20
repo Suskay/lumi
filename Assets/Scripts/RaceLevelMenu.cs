@@ -9,7 +9,7 @@ public class RaceLevelMenu : MonoBehaviour
     public TextMeshProUGUI HighscoreText; // Reference to the HighscoreText UI element
     public TextMeshProUGUI LevelNameText; // Reference to the LevelNameText UI element
     private static int selectedLevelIndex = 0; // Variable to hold the index of the selected level
-    private List<string> levels = new List<string> { "Race1", "Race2", "Race3" }; // List of level names
+    private List<string> levels = new List<string> { "Race1", "Race2", "Race3", "Race10" }; // List of level names
     public StarDisplay starDisplayComponent;
 
 

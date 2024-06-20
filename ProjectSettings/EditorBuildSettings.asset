@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RaceLevels/Race1.unity
     guid: bc74ad1dc903dbb4cbb26b2688d7dcd8
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race10.unity
+    guid: a64ed6c3622d793468e674d68e5e0e3f
   m_configObjects: {}
