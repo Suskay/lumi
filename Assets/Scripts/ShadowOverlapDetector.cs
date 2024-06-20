@@ -12,11 +12,9 @@ public class ShadowOverlapDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // log other object's tag
-        Debug.Log("Overlap Enter: " + other.tag);
+        
         if (isCurrent && (other.CompareTag("Shadow") || other.CompareTag("AdditionalShadowHitbox")))
         {
-            Debug.Log(other.tag);
-            Debug.Log("Overlap Enter");
             // Notify that this shadow started overlapping with another
             OnShadowOverlapEnter?.Invoke(other.gameObject);
         }
@@ -26,7 +24,7 @@ public class ShadowOverlapDetector : MonoBehaviour
     {
         if (isCurrent && (other.CompareTag("Shadow") || other.CompareTag("AdditionalShadowHitbox")))
         {
-            Debug.Log("Overlap Exit");
+            
             // Notify that this shadow stopped overlapping with another
             OnShadowOverlapExit?.Invoke(other.gameObject);
         }

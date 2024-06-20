@@ -10,18 +10,33 @@ using Random = UnityEngine.Random;
 public class ChunkGenerator : MonoBehaviour
 {
     public static ChunkGenerator Instance { get; private set; } // Singleton, but i didnt implement the singleton pattern fully, i.e. no destroy method if new instance is created
-    public Vector3 startPosition = new Vector3(-100f, 1.85f, -100f);
+    public Vector3 startPosition = new Vector3(0, 1.85f, 0);
     public float spawnThreshold = 50f;
     public float removeThreshold = 50f; 
     public List<ChunkData> ChunkDatas; //all the chunks from ChunkStorage
+    public List<ChunkData> CheckpointChunkDatas;
     public List<Chunk> activeChunks = new List<Chunk>(); // chunks currently in the scene
     public Chunk lastChunk;
     private FollowShadow followShadowScript;
+    private int count = 0;
+    private double time = 0;
+    public delegate void ChunkGeneratedEventHandler(Vector3 newChunkCenter);
+    public event ChunkGeneratedEventHandler ChunkGenerated;
+    private void OnChunkGenerated(Vector3 newChunkCenter)
+    {
+        Debug.Log(3);
+        
+        ChunkGenerated?.Invoke(newChunkCenter);
+    }
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        Debug.Log(1);
+        if (Instance != null)
         {
-            Destroy(this.gameObject);
+            if (Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
         }
         else
         {
@@ -45,11 +60,13 @@ public class ChunkGenerator : MonoBehaviour
         }
         
         ChunkDatas = ChunksStorage.Instance.ChunkDataList;
+        CheckpointChunkDatas = ChunksStorage.Instance.CheckpointChunkDataList;
         activeChunks = new List<Chunk>();
         Chunk firstChunk = new Chunk(ChunkDatas[0], startPosition);
         lastChunk = firstChunk;
         firstChunk.spawnChunk();
-        
+        spawnNextChunk(false);
+        spawnNextChunk(true);
         
     }
 
@@ -58,14 +75,15 @@ public class ChunkGenerator : MonoBehaviour
     {
         // Get the current tree position
         Vector3 currentTreePosition = followShadowScript.currentShadowTransform.position;
-
-
         
-       if(Input.GetKeyUp(KeyCode.Space))
-        {
+        time += Time.deltaTime;
+       if(time > 0.1f)
+       {
+           time = 0;
             if (Vector3.Distance(currentTreePosition, lastChunk.globalCenter) < spawnThreshold)
             {
-                spawnNextChunk();
+                spawnNextChunk(count > 1);
+                count = (count + 1) % 3;
             }
 
             // Check the distance to the first chunk
@@ -82,16 +100,26 @@ public class ChunkGenerator : MonoBehaviour
 
     //Instantiates the next chunk randomly, adds it into the activeChunks list
     //Will have infinite loop if not at least one chunk for direction, but not to worry, there are always chunks for all directions
-    private void spawnNextChunk()
+    private void spawnNextChunk(bool hasCheckpoint)
     {
         TreeData lastChunkConnectionTree = getChunkConnectionTree();
+        if(lastChunkConnectionTree == null)
+        {
+            return;
+        }
         ChunkData nextChunk = null;
         TreeData nextChunkConnectionTree = null;
         //loop until a chunk with a suitable connection tree is found
         for (int i = 0; nextChunkConnectionTree == null; i++)
         {
-            nextChunk = ChunkDatas[Random.Range(0, ChunkDatas.Count)];
-            print(ChunkDatas.Count);
+            if (hasCheckpoint)
+            {
+                nextChunk = CheckpointChunkDatas[Random.Range(0, CheckpointChunkDatas.Count)];
+            }
+            else
+            {
+                nextChunk = ChunkDatas[Random.Range(0, ChunkDatas.Count)];
+            }
             nextChunkConnectionTree = getChunkConnectionTree(nextChunk, lastChunkConnectionTree);
         }
         //default option if no suitable connection tree is found
@@ -102,11 +130,18 @@ public class ChunkGenerator : MonoBehaviour
         //Randomise position a bit
         float randomOffset = Random.Range(1.2f, 1.3f);
         Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - (nextChunkConnectionTree.position*randomOffset); // not correct yet
+           
+        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 30f)
+            {
+                return;
+            }
         
         Chunk newChunk = new Chunk(nextChunk, nextPosition);
         newChunk.spawnChunk();
         newChunk.availableDirections[nextChunkConnectionTree.connectionDirection] = false;
         lastChunk = newChunk;
+        OnChunkGenerated(nextPosition);
+        
     }
     
     //Returns a TreeData of potential connectionTree with a connectionDirection that is free,
@@ -132,7 +167,7 @@ public class ChunkGenerator : MonoBehaviour
                 }
             }
         }
-        Debug.Log("No suitable connection tree found in last chunk");
+        Debug.LogError("No suitable connection tree found in last chunk");
         return null;
     }
     
@@ -157,7 +192,7 @@ public class ChunkGenerator : MonoBehaviour
             availableDirection = -1;
             connectionTreeData = null;
         }
-        Debug.Log("No suitable connection tree found in selected chunk for direction: " + (toBeConnectedTree.connectionDirection+2)%4);
+        //Debug.Log("No suitable connection tree found in selected chunk for direction: " + (toBeConnectedTree.connectionDirection+2)%4);
         return null;
     }
     

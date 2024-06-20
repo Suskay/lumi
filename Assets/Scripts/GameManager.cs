@@ -102,11 +102,10 @@ public class GameManager : MonoBehaviour
 
     public Boolean BlockInput()
     {
-        Debug.Log( IsGameOver == true || BlackoutManager.isAnimationPlaying);
+        
 
         if (gameObject.CompareTag("Survival"))
         {
-            Debug.Log(IsGameOver == true || BlackoutManager.isAnimationPlaying);
             return (IsGameOver == true || BlackoutManager.isAnimationPlaying == true);
         }
         else if (gameObject.CompareTag("Race"))

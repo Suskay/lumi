@@ -24,8 +24,9 @@ public class RotateShadow : MonoBehaviour
         // rotation angle is calculated in Manager Class for all trees, it should always be same
         // but each tree still does its own shadow scaling calculation(because we might have trees of different height, shape)
         float rotationSpeed = ShadowManager.rotationSpeed;
-        transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.up);
+        //transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.up);
         currentRotation = ShadowManager.currentRotation;
+        transform.rotation = Quaternion.Euler(0, currentRotation, 0);
         float widthFactor = CalculateShadowWidth(currentRotation);
         transform.localScale = new Vector3(widthFactor, transform.localScale.y, transform.localScale.z);
         boostLevel = ShadowManager.boostLevel; //so i just take boostLvl 

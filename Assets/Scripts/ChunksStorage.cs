@@ -7,8 +7,9 @@ public class ChunksStorage : MonoBehaviour
 {
     public static ChunksStorage Instance { get; private set; }
     public List<ChunkData> ChunkDataList;
-    public int rows = 1; // rows of chunks
-    public int columns = 2; // columns of chunks
+    public List<ChunkData> CheckpointChunkDataList;
+    public int rows = 3; // rows of chunks
+    public int columns = 3; // columns of chunks
     public Vector3 [] globalChunkCenters; // array of global chunk centers
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class ChunksStorage : MonoBehaviour
         ChunkDataList = new List<ChunkData>();
         createChunks(ChunkDataList);
         scanChunks(ChunkDataList);
+        separateCheckpointChunks();
         SceneManager.LoadScene("Scenes/SurvivalMode/Survival");
         
     }
@@ -50,10 +52,25 @@ public class ChunksStorage : MonoBehaviour
                    treePosition.z > zLowerBound && treePosition.z < zUpperBound)
                 { 
                     ChunkDataList[i].addTree(tree, globalCenter);
-                    Debug.Log("tree added to chunkData with center:" + globalCenter);
                     break;
                 }   
             }
+        }
+    }
+    private void separateCheckpointChunks()
+    {
+        CheckpointChunkDataList = new List<ChunkData>();
+        foreach (ChunkData chunkData in ChunkDataList)
+        {
+            if (chunkData.hasCheckpoint)
+            {
+                CheckpointChunkDataList.Add(chunkData);
+            }
+        }
+
+        foreach (ChunkData chunkData in CheckpointChunkDataList)
+        {
+            ChunkDataList.Remove(chunkData);
         }
     }
 //Creates empty ChunkDataList with as many chunks as cells in the globalChunkCenters
@@ -95,6 +112,7 @@ public class ChunkData
     public List<TreeData> TreeDataList;
     public List<TreeData>[] ConnectionTreeDataList; // each list corresponds to a direction of connection
     public const float size = 30f; // length of a side of the chunk square
+    public bool hasCheckpoint = false;
 
     public ChunkData()
     {
@@ -116,9 +134,13 @@ public class ChunkData
         {
             Debug.Log("tree is null");
         }
+        if(tree.GetComponent<CheckpointTree>()!= null)
+        {
+            hasCheckpoint = true;
+        }
         TreeGenConnection treeGenConnection = tree.GetComponent<TreeGenConnection>();
         TreeData localCoordinatesTreeData = new TreeData(tree.transform.position - globalCenter,
-                                                                treeGenConnection.connectionDirection, 0);
+                                                                treeGenConnection.connectionDirection, treeGenConnection.treeType);
         if(TreeDataList == null)
         {
             Debug.Log("TreeDataList is null");
@@ -134,7 +156,7 @@ public class ChunkData
         if(tree.connectionDirection != -1)
         {
             ConnectionTreeDataList[tree.connectionDirection].Add(tree);
-            Debug.Log("connection added to chunkData: " + globalCenter);
+           
         }
     }
 }
