@@ -35,4 +35,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RaceLevels/Race1.unity
     guid: bc74ad1dc903dbb4cbb26b2688d7dcd8
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race10.unity
+    guid: a64ed6c3622d793468e674d68e5e0e3f
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race4.unity
+    guid: 7548a03b546784f4e99bc164d09b4b0f
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race3.unity
+    guid: 650299837887ee146a8b6bf4cd5538dd
+  - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race5.unity
+    guid: 028ac67be72f60b49a98305d5a1950ce
   m_configObjects: {}

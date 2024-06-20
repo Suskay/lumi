@@ -10,6 +10,7 @@ public class TimerRaceMode : MonoBehaviour
     private bool isTimerRunning = false; // Whether the timer is currently running
     public Text gameOverText; // New UI Text element for game over message
     public GameObject textBackground; // Reference to the TextBackground plane
+    public StarDisplay starDisplayComponent;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class TimerRaceMode : MonoBehaviour
             Debug.LogError("Text component not found. Make sure the names are correct.");
         }
 
+        starDisplayComponent.gameObject.SetActive(false);
         StartCoroutine(StartTimer());
     }
 
@@ -36,24 +38,29 @@ public class TimerRaceMode : MonoBehaviour
     public IEnumerator StartTimer()
     {
         // Wait until the race has started
-        // yield return new WaitUntil(() => RaceStartCounter.isRaceStarted);
+        yield return new WaitUntil(() => RaceStartCounter.isRaceStarted);
 
         elapsedTime = 0f;
         isTimerRunning = true;
-        return null;
     }
 
     public void StopTimer()
     {
         isTimerRunning = false;
-        
+        float elapsedTime = this.elapsedTime;
         RaceHighscoreManager.Instance.SaveHighscore(SceneManager.GetActiveScene().name, elapsedTime);
+        int starsEarned = StarRatingManager.Instance.GetStarRating(SceneManager.GetActiveScene().name, elapsedTime);
 
-        gameOverText.text = "Time: " + timerText.text + "\nPress any key to restart or " +
-                            "Escape to return to the Main Menu";
+        //show the hidden star display component
+        
+        starDisplayComponent.gameObject.SetActive(true);
+        starDisplayComponent.SetStars(starsEarned);
+
+        // Update game over text
+        gameOverText.text = $"Time: {timerText.text}\nPress any key to restart or Escape to return to the Main Menu";
         timerText.text = "";
         textBackground.SetActive(true);
-        
+
         GameManager.Instance.GameOver();
     }
 }
