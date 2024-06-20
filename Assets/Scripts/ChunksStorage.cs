@@ -8,8 +8,8 @@ public class ChunksStorage : MonoBehaviour
     public static ChunksStorage Instance { get; private set; }
     public List<ChunkData> ChunkDataList;
     public List<ChunkData> CheckpointChunkDataList;
-    public int rows = 1; // rows of chunks
-    public int columns = 2; // columns of chunks
+    public int rows = 3; // rows of chunks
+    public int columns = 3; // columns of chunks
     public Vector3 [] globalChunkCenters; // array of global chunk centers
     private void Awake()
     {

@@ -19,6 +19,7 @@ public class ChunkGenerator : MonoBehaviour
     public Chunk lastChunk;
     private FollowShadow followShadowScript;
     private int count = 0;
+    private double time = 0;
     public delegate void ChunkGeneratedEventHandler(Vector3 newChunkCenter);
     public event ChunkGeneratedEventHandler ChunkGenerated;
     private void OnChunkGenerated(Vector3 newChunkCenter)
@@ -64,12 +65,9 @@ public class ChunkGenerator : MonoBehaviour
         Chunk firstChunk = new Chunk(ChunkDatas[0], startPosition);
         lastChunk = firstChunk;
         firstChunk.spawnChunk();
-        /*
-        spawnNextChunk(false);
-        spawnNextChunk(false);
         spawnNextChunk(false);
         spawnNextChunk(true);
-        */
+        
     }
 
     // Update is called once per frame
@@ -78,9 +76,10 @@ public class ChunkGenerator : MonoBehaviour
         // Get the current tree position
         Vector3 currentTreePosition = followShadowScript.currentShadowTransform.position;
         
-        
-       if(Input.GetKeyUp(KeyCode.Space))
-        {
+        time += Time.deltaTime;
+       if(time > 0.1f)
+       {
+           time = 0;
             if (Vector3.Distance(currentTreePosition, lastChunk.globalCenter) < spawnThreshold)
             {
                 spawnNextChunk(count > 1);
@@ -104,6 +103,10 @@ public class ChunkGenerator : MonoBehaviour
     private void spawnNextChunk(bool hasCheckpoint)
     {
         TreeData lastChunkConnectionTree = getChunkConnectionTree();
+        if(lastChunkConnectionTree == null)
+        {
+            return;
+        }
         ChunkData nextChunk = null;
         TreeData nextChunkConnectionTree = null;
         //loop until a chunk with a suitable connection tree is found
@@ -127,6 +130,11 @@ public class ChunkGenerator : MonoBehaviour
         //Randomise position a bit
         float randomOffset = Random.Range(1.2f, 1.3f);
         Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - (nextChunkConnectionTree.position*randomOffset); // not correct yet
+           
+        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 30f)
+            {
+                return;
+            }
         
         Chunk newChunk = new Chunk(nextChunk, nextPosition);
         newChunk.spawnChunk();
