@@ -22,6 +22,15 @@ public class RaceLevelMenu : MonoBehaviour
         // "Race10"
     };
 
+    public List<string> LevelDisplayNames = new List<string>
+    {
+        "Welcome Valley",
+        "Chill Rider",
+        "Sneaky Circle",
+        "Blast Off",
+        "Blurred Vision"
+    };
+
     public StarDisplay starDisplayComponent;
 
     public Button ConfirmLevelButton; // Reference to the ConfirmLevelButton UI element
@@ -56,8 +65,10 @@ public class RaceLevelMenu : MonoBehaviour
     {
         DisplayHighscores(levels[levelIndex]);
         updateStarDisplay(levels[levelIndex]);
-        LevelNameText.text =
-            levels[levelIndex]; // Set the text of the LevelNameText UI element to the name of the selected level
+        if (levelIndex >= 0 && levelIndex < LevelDisplayNames.Count)
+        {
+            LevelNameText.text = LevelDisplayNames[levelIndex];
+        }
 
         if (levelIndex >= 0 && levelIndex < LevelThumbnails.Length)
         {
