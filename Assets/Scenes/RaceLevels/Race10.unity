@@ -6480,6 +6480,7 @@ MonoBehaviour:
   timerText: {fileID: 133117060}
   gameOverText: {fileID: 1353950784}
   textBackground: {fileID: 127283367}
+  starDisplayComponent: {fileID: 0}
 --- !u!1001 &499465587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21960,6 +21961,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749900737}
     m_Modifications:
+    - target: {fileID: 1362713074675658442, guid: a053ed84fde5e8e4fbcc431d40751b65,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1800856160}
+    - target: {fileID: 1362713074675658442, guid: a053ed84fde5e8e4fbcc431d40751b65,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmRestartLevel
+      objectReference: {fileID: 0}
     - target: {fileID: 3493172040567678622, guid: a053ed84fde5e8e4fbcc431d40751b65,
         type: 3}
       propertyPath: m_Pivot.x
@@ -22075,5 +22086,15 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1800856160}
+    - target: {fileID: 3493172040958747223, guid: a053ed84fde5e8e4fbcc431d40751b65,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmReturnToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3493172040958747223, guid: a053ed84fde5e8e4fbcc431d40751b65,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a053ed84fde5e8e4fbcc431d40751b65, type: 3}

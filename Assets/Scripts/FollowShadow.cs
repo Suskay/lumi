@@ -9,7 +9,7 @@ public class FollowShadow : MonoBehaviour
     public ShadowOverlapDetector currentShadowOverlapDetector;
     public List<Transform> overlappingShadows = new List<Transform>();
     public ParticleSystem boostParticles;  // Reference to the particle system
-    public ParticleSystem boostRing;  // Reference to the particle system
+    // public ParticleSystem boostRing;  // Reference to the particle system
 
     private int successfulJumps = 0;  // Track successful jumps
     private int boostLevel = 0;   // Flag to check if speed is boosted
@@ -101,7 +101,7 @@ public class FollowShadow : MonoBehaviour
                 ShadowManager.SetBoosted(boostLevel);
                 SoundManager.Instance.PlayBoostActivatedSound();
                 boostParticles.Play();
-                boostRing.Play();
+                // boostRing.Play();
             }
         
     }
