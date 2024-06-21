@@ -25,7 +25,7 @@ public class StarRatingManager : MonoBehaviour
             { "Race2", (20f, 15f) },
             { "Race3", (12f, 8f) },
             { "Race4", (15f, 10f) },
-            { "Race5", (13f, 9f) },
+            { "Race5", (14f, 11f) },
         };
     }
 
