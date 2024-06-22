@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         if (IsGameOver)
         {
-            if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !BlackoutManager.isAnimationPlaying)
+            if (Input.GetKeyDown(KeyCode.R) && !Input.GetKeyDown(KeyCode.Escape) && !BlackoutManager.isAnimationPlaying)
             {
                 Debug.Log("Restarting");
                 RestartGame();

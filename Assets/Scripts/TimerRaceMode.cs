@@ -57,7 +57,7 @@ public class TimerRaceMode : MonoBehaviour
         starDisplayComponent.SetStars(starsEarned);
 
         // Update game over text
-        gameOverText.text = $"Time: {timerText.text}\nPress any key to restart or Escape to return to the Main Menu";
+        gameOverText.text = $"Time: {timerText.text}\nPress R to restart or Escape to return to the Main Menu";
         timerText.text = "";
         textBackground.SetActive(true);
 

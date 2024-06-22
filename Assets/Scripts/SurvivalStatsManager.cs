@@ -50,7 +50,7 @@ public class SurvivalStatsManager : MonoBehaviour
             $"Total Boost Time: {TotalBoostTime:F2} seconds\n" +
             $"Checkpoints Reached: {CheckpointsReached}\n" +
             $"Total Points: {TotalPoints}\n" +
-            $"Press any key to restart or Escape to return to the Main Menu";
+            $"Press R to restart or Escape to return to the Main Menu";
     }
     
     public static void UpdateTotalPoints(int points)
