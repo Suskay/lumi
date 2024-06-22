@@ -151,6 +151,8 @@ public class RaceLevelMenu : MonoBehaviour
 
         Debug.Log("starDisplayComponent found!");
         starDisplayComponent.SetStars(bestStars);
+        var neededTimesForLevel = StarRatingManager.Instance.GetNeededTimesForLevel(level);
+        starDisplayComponent.SetTimes(neededTimesForLevel.Item1, neededTimesForLevel.Item2);
     }
 
     private bool IsLevelUnlocked(int levelIndex)

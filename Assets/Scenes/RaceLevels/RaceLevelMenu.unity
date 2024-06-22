@@ -462,6 +462,12 @@ MonoBehaviour:
   LevelNameText: {fileID: 1631629826}
   LevelPreview: {fileID: 0}
   LevelThumbnails: []
+  LevelDisplayNames:
+  - Welcome Valley
+  - Chill Rider
+  - Sneaky Circle
+  - Blast Off
+  - Blurred Vision
   starDisplayComponent: {fileID: 0}
   ConfirmLevelButton: {fileID: 0}
   ConfirmLevelButtonText: {fileID: 0}
@@ -855,6 +861,31 @@ PrefabInstance:
     - target: {fileID: 1243755583831820676, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552810567986579606, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552810567986579606, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1684502263422007259, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2396457856248003289, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899659293443909538, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1606,6 +1637,12 @@ MonoBehaviour:
   LevelNameText: {fileID: 1631629826}
   LevelPreview: {fileID: 0}
   LevelThumbnails: []
+  LevelDisplayNames:
+  - Welcome Valley
+  - Chill Rider
+  - Sneaky Circle
+  - Blast Off
+  - Blurred Vision
   starDisplayComponent: {fileID: 0}
   ConfirmLevelButton: {fileID: 0}
   ConfirmLevelButtonText: {fileID: 0}
@@ -2118,6 +2155,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: ebf600c781098564bbd70de71a06565d, type: 3}
   - {fileID: 2800000, guid: fa0340a76ec45ff419925f9ca2947c07, type: 3}
   - {fileID: 2800000, guid: 2b04535fbbea9fb4fb993cc89633bec3, type: 3}
+  LevelDisplayNames:
+  - Welcome Valley
+  - Chill Rider
+  - Sneaky Circle
+  - Blast Off
+  - Blurred Vision
   starDisplayComponent: {fileID: 584206109}
   ConfirmLevelButton: {fileID: 1338213820}
   ConfirmLevelButtonText: {fileID: 443674997}

@@ -53,4 +53,14 @@ public class StarRatingManager : MonoBehaviour
     {
         starThresholds[levelName] = (twoStarTime, threeStarTime);
     }
+
+    public (float, float) GetNeededTimesForLevel(string levelName)
+    {
+        if (starThresholds.TryGetValue(levelName, out var thresholds))
+        {
+            return thresholds;
+        }
+
+        return (0, 0);
+    }
 }

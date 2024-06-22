@@ -48,13 +48,17 @@ public class TimerRaceMode : MonoBehaviour
     {
         isTimerRunning = false;
         float elapsedTime = this.elapsedTime;
-        RaceHighscoreManager.Instance.SaveHighscore(SceneManager.GetActiveScene().name, elapsedTime);
-        int starsEarned = StarRatingManager.Instance.GetStarRating(SceneManager.GetActiveScene().name, elapsedTime);
+        var levelName = SceneManager.GetActiveScene().name;
+        RaceHighscoreManager.Instance.SaveHighscore(levelName, elapsedTime);
+        int starsEarned = StarRatingManager.Instance.GetStarRating(levelName, elapsedTime);
 
         //show the hidden star display component
         
         starDisplayComponent.gameObject.SetActive(true);
         starDisplayComponent.SetStars(starsEarned);
+
+        var levelTimes = StarRatingManager.Instance.GetNeededTimesForLevel(levelName);
+        starDisplayComponent.SetTimes(levelTimes.Item1, levelTimes.Item2);
 
         // Update game over text
         gameOverText.text = $"Time: {timerText.text}\nPress R to restart or Escape to return to the Main Menu";
