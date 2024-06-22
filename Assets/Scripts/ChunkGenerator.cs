@@ -128,10 +128,10 @@ public class ChunkGenerator : MonoBehaviour
             nextChunkConnectionTree = getChunkConnectionTree(ChunkDatas[0], lastChunkConnectionTree);
         }
         //Randomise position a bit
-        float randomOffset = Random.Range(1.2f, 1.3f);
-        Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - (nextChunkConnectionTree.position*randomOffset); // not correct yet
-           
-        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 30f)
+        Vector3 offset = calculateOffset(nextChunkConnectionTree.connectionDirection);
+        Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - nextChunkConnectionTree.position + offset; // not correct yet
+
+        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 33f)
             {
                 return;
             }
@@ -142,6 +142,28 @@ public class ChunkGenerator : MonoBehaviour
         lastChunk = newChunk;
         OnChunkGenerated(nextPosition);
         
+    }
+    
+    private Vector3 calculateOffset(int connection)
+    {
+        Vector3 offset = new Vector3(0, 0, 0);
+        switch (connection)
+        {
+            case 0:
+                offset = new Vector3(0, 0, 6);
+                break;
+            case 1:
+                offset = new Vector3(6, 0, 0);
+                break;
+            case 2:
+                offset = new Vector3(0, 0, -6);
+                break;
+            case 3:
+                offset = new Vector3(-6, 0, 0);
+                break;
+        }
+
+        return offset;
     }
     
     //Returns a TreeData of potential connectionTree with a connectionDirection that is free,
