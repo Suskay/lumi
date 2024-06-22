@@ -32,7 +32,8 @@ public class StarDisplay : MonoBehaviour
     
     public void SetTimes(float time1, float time2)
     {
-        this.twoStarTime.SetText(String.Format("00:{0}:00", time1.ToString()));
-        this.threeStarTime.SetText(String.Format("00:{0}:00", time2.ToString()));
+        this.twoStarTime.SetText(String.Format("00:{0:D2}:00", (int)time1));
+        this.threeStarTime.SetText(String.Format("00:{0:D2}:00", (int)time2));
     }
+
 }

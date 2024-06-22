@@ -12020,6 +12020,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3263188685230208867, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263188685230208867, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263188685230208867, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263188685230208867, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 8088056094489220790, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8088056094489220790, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8088056094489220790, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8088056094489220790, guid: 74f363a338b21ec4a97fe82f67d9b4d1,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74f363a338b21ec4a97fe82f67d9b4d1, type: 3}
 --- !u!114 &1243755584514723753 stripped
