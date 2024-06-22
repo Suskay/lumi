@@ -22,5 +22,6 @@ public class TreeGenConnection : MonoBehaviour
     {
         TreeStorage.Instance.UnregisterTree(this.gameObject);
     }
+    
 }
   

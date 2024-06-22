@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tree : MonoBehaviour
@@ -8,5 +10,13 @@ public class Tree : MonoBehaviour
     public void UseTree()
     {
         isUsed = true;
+        
     }
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, 6.5f);
+    }
+    
+   
 }
