@@ -38,4 +38,9 @@ public class ReturnToMainMenu : MonoBehaviour
         Debug.Log("Returning to game");
         confirmationDialog.SetActive(false);
     }
+    
+    public void toggleDialogActive()
+    {
+        confirmationDialog.SetActive(!confirmationDialog.activeSelf);
+    }
 }
