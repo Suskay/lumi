@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tree : MonoBehaviour
@@ -8,5 +10,9 @@ public class Tree : MonoBehaviour
     public void UseTree()
     {
         isUsed = true;
+        
     }
+    
+    
+   
 }

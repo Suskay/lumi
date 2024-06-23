@@ -1380,8 +1380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f237a13d39a11e248b284d148cc47f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 2
-  columns: 2
+  rows: 3
+  columns: 3
   globalChunkCenters: []
 --- !u!1 &1071837990
 GameObject:

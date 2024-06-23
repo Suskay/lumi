@@ -22,5 +22,12 @@ public class TreeGenConnection : MonoBehaviour
     {
         TreeStorage.Instance.UnregisterTree(this.gameObject);
     }
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+        float r = connectionLength * 3.25f;
+        Gizmos.DrawWireSphere(transform.position, r);
+    }
+    
 }
   
