@@ -128,10 +128,10 @@ public class ChunkGenerator : MonoBehaviour
             nextChunkConnectionTree = getChunkConnectionTree(ChunkDatas[0], lastChunkConnectionTree);
         }
         //Randomise position a bit
-        Vector3 offset = calculateOffset(nextChunkConnectionTree.connectionDirection);
+        Vector3 offset = calculateOffset(nextChunkConnectionTree);
         Vector3 nextPosition = lastChunk.globalCenter + lastChunkConnectionTree.position - nextChunkConnectionTree.position + offset; // not correct yet
 
-        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 33f)
+        if (activeChunks.Count > 3 && Vector3.Distance(nextPosition, activeChunks[activeChunks.Count-3].globalCenter) < 30f)
             {
                 return;
             }
@@ -144,22 +144,39 @@ public class ChunkGenerator : MonoBehaviour
         
     }
     
-    private Vector3 calculateOffset(int connection)
+    private Vector3 calculateOffset(TreeData connectionTree)
     {
+        int connection = connectionTree.connectionDirection;
+        int offsetLength;
+        switch(connectionTree.treeType)
+        {
+            case 0:
+                offsetLength = 6;
+                break;
+            case 1:
+                offsetLength = 8;
+                break;
+            case 2:
+                offsetLength = 6;
+                break;
+            default:
+                offsetLength = 6;
+                break;
+        }
         Vector3 offset = new Vector3(0, 0, 0);
         switch (connection)
         {
             case 0:
-                offset = new Vector3(0, 0, 6);
+                offset = new Vector3(0, 0, offsetLength);
                 break;
             case 1:
-                offset = new Vector3(6, 0, 0);
+                offset = new Vector3(offsetLength, 0, 0);
                 break;
             case 2:
-                offset = new Vector3(0, 0, -6);
+                offset = new Vector3(0, 0, -offsetLength);
                 break;
             case 3:
-                offset = new Vector3(-6, 0, 0);
+                offset = new Vector3(-offsetLength, 0, 0);
                 break;
         }
 

@@ -12,11 +12,7 @@ public class Tree : MonoBehaviour
         isUsed = true;
         
     }
-    public void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(transform.position, 6.5f);
-    }
+    
     
    
 }

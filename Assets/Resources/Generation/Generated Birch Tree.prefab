@@ -335,6 +335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27cf5fc8d25c1b47bc7fc3d337855d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectionLength: 2.5
+  connectionLength: 3
   connectionDirection: -1
   treeType: 1
