@@ -45,6 +45,7 @@ public class ChunkGenerator : MonoBehaviour
     }
     void Start()
     {
+        Random.InitState(SetSeed());
         GameObject lumiObject = GameObject.Find("Lumi");
         if (lumiObject != null)
         {
@@ -97,7 +98,12 @@ public class ChunkGenerator : MonoBehaviour
         
         
     }
-
+    public int SetSeed()
+    {
+        Debug.Log("Seed: " + SeedInput.Instance.getSeed());
+        if(SeedInput.Instance.getSeed() != 0) return SeedInput.Instance.getSeed();
+        return Random.Range(Int32.MinValue, Int32.MaxValue);
+    }
     //Instantiates the next chunk randomly, adds it into the activeChunks list
     //Will have infinite loop if not at least one chunk for direction, but not to worry, there are always chunks for all directions
     private void spawnNextChunk(bool hasCheckpoint)
