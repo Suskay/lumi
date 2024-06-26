@@ -23,11 +23,15 @@ public class ScoreManager : MonoBehaviour
 
     public void AddJumpPoints(int boostLevel)
     {
-        score += (1+boostLevel)*jumpPoints;
+        //score += (1+boostLevel)*jumpPoints;
     }
 
     public void AddTimePoints(int boostLevel)
     {
-        score += (1+boostLevel)*timePoints;
+       // score += (1+boostLevel)*timePoints;
+    }
+    public void AddCheckpointPoints(int boostLevel)
+    {
+        score += (1+boostLevel);
     }
 }

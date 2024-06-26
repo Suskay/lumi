@@ -83,6 +83,7 @@ public class FollowShadow : MonoBehaviour
                 successfulJumps++;
                 CheckForSpeedBoost();
                 ScoreManager.Instance.AddJumpPoints(boostLevel);
+                
             }
             else
             {
@@ -100,7 +101,28 @@ public class FollowShadow : MonoBehaviour
                 successfulJumps = 0;
                 ShadowManager.SetBoosted(boostLevel);
                 SoundManager.Instance.PlayBoostActivatedSound();
-                boostParticles.Play();
+                ParticleSystem.MainModule main = boostParticles.main;
+                if(boostLevel == 1)
+                {
+                    main.simulationSpeed = 1.0f;
+                    main.startColor = Color.white;
+                    main.startSize = 1.0f;
+                    boostParticles.Play();
+                }else if (boostLevel == 2)
+                {
+                    main.simulationSpeed = 1.2f;
+                    main.startColor = Color.yellow;
+                    main.startSize = 1.2f;
+                    boostParticles.Play();
+                }else if (boostLevel == 3)
+                {
+                    main.simulationSpeed = 1.5f;
+                    main.startColor = Color.red;
+                    main.startSize = 1.4f;
+                    boostParticles.Play();
+                }
+
+                //boostParticles.Play();
                 // boostRing.Play();
             }
         
@@ -196,6 +218,7 @@ public class FollowShadow : MonoBehaviour
             RotateShadow currentRotateShadow = currentShadowTransform.parent.GetComponent<RotateShadow>();
             if (currentRotateShadow != null)
             {
+                SoundManager.Instance.PlayJumpSound();
                 CheckForSpeedBoost();
             }
 
@@ -205,6 +228,7 @@ public class FollowShadow : MonoBehaviour
                 TimerAndMovement.IncreaseTimer(15f);
                 checkpointTree.UseTree();
                 SurvivalStatsManager.IncrementCheckpointsReached();
+                ScoreManager.Instance.AddCheckpointPoints(boostLevel);
                 Debug.Log("Checkpoint reached");
             }
 
