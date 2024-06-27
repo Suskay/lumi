@@ -100,6 +100,7 @@ public class RaceLevelMenu : MonoBehaviour
 
     public void StartRaceLevel()
     {
+        GameManager.Instance.currentGameMode = "Race";
         if (IsLevelUnlocked(selectedLevelIndex))
         {
             if (selectedLevelIndex >= 0 && selectedLevelIndex < levels.Count)

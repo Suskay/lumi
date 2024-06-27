@@ -12,6 +12,15 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver { get; private set; }
 
     public static int CurrentLevelIndex { get; set; }
+    
+    public enum GameMode
+    {
+        Survival,
+        Race,
+        None
+    }
+    
+    public String currentGameMode = "None"; // Current game mode
 
     private void Awake()
     {
@@ -47,7 +56,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         // Reset the vignette
-        if (gameObject.tag == "Survival")
+        if (currentGameMode == "Survival")
         {
             BlackoutManager blackoutManager = FindObjectOfType<BlackoutManager>();
             if (blackoutManager != null)
@@ -91,11 +100,11 @@ public class GameManager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Escape) && !BlackoutManager.isAnimationPlaying)
             {
                 Debug.Log("Pressing escape");
-                if (gameObject.tag == "Survival")
+                if (currentGameMode == "Survival")
                 {
                     SceneManager.LoadScene("MainMenu");
                 }
-                else if (gameObject.tag == "Race")
+                else if (currentGameMode == "Race")
                 {
                     SceneManager.LoadScene("RaceLevelMenu");
                 }
@@ -123,13 +132,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("IsGameOver // BlockInput: " + IsGameOver);
         Debug.Log(gameObject.tag);
-        if (gameObject.CompareTag("Survival"))
+        if (currentGameMode == "Survival")
         {
             Debug.Log("IsGameOver: " + IsGameOver);
 
             return (IsGameOver == true || BlackoutManager.isAnimationPlaying == true);
         }
-        else if (gameObject.CompareTag("Race"))
+        else if (currentGameMode == "Race")
         {
             Debug.Log("IsGameOver: " + IsGameOver + "ISRaceStarted: " + RaceStartCounter.isRaceStarted);
             return IsGameOver || !RaceStartCounter.isRaceStarted;

@@ -14,6 +14,7 @@ public class SurvivalMenu : MonoBehaviour
 
     public void StartSurvivalLevel()
     {
+        GameManager.Instance.currentGameMode = "Survival";
         if (ChunksStorage.Instance != null)
         {
             SceneManager.LoadScene("Survival");
