@@ -9,8 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/OldScenes/empty.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 308d961caf510ae41b79c9394eab293a
+  - enabled: 1
+    path: Assets/Scenes/DebugMenu/DebugMenu.unity
+    guid: ee84424558f833248b4bc03d5833708d
+  - enabled: 1
     path: Assets/Scenes/RaceLevels/RaceLevelMenu.unity
     guid: 71a28138b503b6044a6d85d6c55be88a
+  - enabled: 1
+    path: Assets/Scenes/SurvivalMode/SurvivalMenu.unity
+    guid: 1c79bb9b738934648bf9e7fab47cae8c
   - enabled: 1
     path: Assets/Scenes/SurvivalMode/Chunks.unity
     guid: 4e3cbc8cbd88ec04b80e2442f0cd611c
@@ -18,33 +27,24 @@ EditorBuildSettings:
     path: Assets/Scenes/SurvivalMode/Survival.unity
     guid: f1894e9b66d306249b560332004e8ed6
   - enabled: 1
-    path: Assets/Scenes/RaceLevels/Race2.unity
-    guid: 647dd543d4740614182bbee60ced909b
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 308d961caf510ae41b79c9394eab293a
-  - enabled: 1
-    path: Assets/Scenes/SurvivalMode/SurvivalMenu.unity
-    guid: 1c79bb9b738934648bf9e7fab47cae8c
-  - enabled: 1
-    path: Assets/Scenes/DebugMenu/DebugMenu.unity
-    guid: ee84424558f833248b4bc03d5833708d
+    path: Assets/Scenes/RaceLevels/Race1.unity
+    guid: bc74ad1dc903dbb4cbb26b2688d7dcd8
   - enabled: 1
     path: Assets/Scenes/RaceLevels/Race2.unity
     guid: 6a926881255a897498e3b44bb7f0f2d3
   - enabled: 1
-    path: Assets/Scenes/RaceLevels/Race1.unity
-    guid: bc74ad1dc903dbb4cbb26b2688d7dcd8
-  - enabled: 1
-    path: Assets/Scenes/RaceLevels/Race10.unity
-    guid: a64ed6c3622d793468e674d68e5e0e3f
-  - enabled: 1
-    path: Assets/Scenes/RaceLevels/Race4.unity
-    guid: 7548a03b546784f4e99bc164d09b4b0f
+    path: Assets/Scenes/RaceLevels/Race2.unity
+    guid: 6a926881255a897498e3b44bb7f0f2d3
   - enabled: 1
     path: Assets/Scenes/RaceLevels/Race3.unity
     guid: 650299837887ee146a8b6bf4cd5538dd
   - enabled: 1
+    path: Assets/Scenes/RaceLevels/Race4.unity
+    guid: 7548a03b546784f4e99bc164d09b4b0f
+  - enabled: 1
     path: Assets/Scenes/RaceLevels/Race5.unity
     guid: 028ac67be72f60b49a98305d5a1950ce
+  - enabled: 0
+    path: Assets/Scenes/RaceLevels/Race10.unity
+    guid: a64ed6c3622d793468e674d68e5e0e3f
   m_configObjects: {}

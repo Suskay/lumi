@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
   LevelNameText: {fileID: 1631629826}
-  LevelPreview: {fileID: 0}
+  LevelPreview: {fileID: 156530922}
   LevelThumbnails: []
   LevelDisplayNames:
   - Welcome Valley
@@ -468,9 +468,9 @@ MonoBehaviour:
   - Sneaky Circle
   - Blast Off
   - Blurred Vision
-  starDisplayComponent: {fileID: 0}
-  ConfirmLevelButton: {fileID: 0}
-  ConfirmLevelButtonText: {fileID: 0}
+  starDisplayComponent: {fileID: 584206109}
+  ConfirmLevelButton: {fileID: 1338213820}
+  ConfirmLevelButtonText: {fileID: 443674997}
 --- !u!1 &379518721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HighscoreText: {fileID: 379518723}
   LevelNameText: {fileID: 1631629826}
-  LevelPreview: {fileID: 0}
+  LevelPreview: {fileID: 156530922}
   LevelThumbnails: []
   LevelDisplayNames:
   - Welcome Valley
@@ -1643,9 +1643,9 @@ MonoBehaviour:
   - Sneaky Circle
   - Blast Off
   - Blurred Vision
-  starDisplayComponent: {fileID: 0}
-  ConfirmLevelButton: {fileID: 0}
-  ConfirmLevelButtonText: {fileID: 0}
+  starDisplayComponent: {fileID: 584206109}
+  ConfirmLevelButton: {fileID: 1338213820}
+  ConfirmLevelButtonText: {fileID: 443674997}
 --- !u!1 &1415900186
 GameObject:
   m_ObjectHideFlags: 0
