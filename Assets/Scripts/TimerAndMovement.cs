@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 3f;
+    public const float TimerDuration = 40f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -107,7 +107,7 @@ public class TimerAndMovement : MonoBehaviour
     {
         // Increase the timer (add extra time, adjust as needed)
         // only increase time until a certain threshhold
-        currentTime = currentTime < 65 ? currentTime + timeToAdd : 65;
+        currentTime = currentTime < 50 ? currentTime + timeToAdd : 50;
         Debug.Log("Timer increased! Current time: " + currentTime);
     }
 
