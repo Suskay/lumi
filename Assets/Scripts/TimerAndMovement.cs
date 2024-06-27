@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TimerAndMovement : MonoBehaviour
 {
-    public const float TimerDuration = 55f;
+    public const float TimerDuration = 3f;
     public static float currentTime = 0f;
     private bool isTimerRunning = false;
     public Text timerText;
@@ -13,9 +13,11 @@ public class TimerAndMovement : MonoBehaviour
     public Text gameOverText; // New UI Text element for game over message
     private float timeSinceLastPoint = 0f; // Time since the last point was
     public BlackoutManager blackoutManager;
+    public GameObject endOfGameButtons;
 
     void Start()
     {
+        endOfGameButtons.SetActive(false);
         if (timerText == null)
         {
             Debug.LogError("Text component not found. Make sure the names are correct.");
@@ -60,6 +62,7 @@ public class TimerAndMovement : MonoBehaviour
                 if (currentTime <= 0f)
                 {
                     StopTimer();
+
                     SurvivalStatsManager.UpdateTotalPoints(ScoreManager.Instance.score);
                     SurvivalHighscoreManager.Instance.SaveHighscore(ScoreManager.Instance.score);
                     GameManager.Instance.GameOver();
@@ -72,17 +75,19 @@ public class TimerAndMovement : MonoBehaviour
             }
         }
     }
-    
+
     IEnumerator StopAfterAnimation()
     {
         yield return StartCoroutine(blackoutManager.AnimateVignette());
         DisplayGameOverMessage();
+        displayEndOfGameButtons();
     }
 
     void StartTimer()
     {
         // Set the initial time on start
         currentTime = TimerDuration;
+        Debug.Log("Current Time Set!!: " + currentTime);
         isTimerRunning = true;
     }
 
@@ -104,5 +109,10 @@ public class TimerAndMovement : MonoBehaviour
         // only increase time until a certain threshhold
         currentTime = currentTime < 65 ? currentTime + timeToAdd : 65;
         Debug.Log("Timer increased! Current time: " + currentTime);
+    }
+
+    void displayEndOfGameButtons()
+    {
+        endOfGameButtons.SetActive(true);
     }
 }

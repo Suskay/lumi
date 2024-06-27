@@ -14,7 +14,14 @@ public class SurvivalMenu : MonoBehaviour
 
     public void StartSurvivalLevel()
     {
-        SceneManager.LoadScene("Chunks");
+        if (ChunksStorage.Instance != null)
+        {
+            SceneManager.LoadScene("Survival");
+        }
+        else
+        {
+            SceneManager.LoadScene("Chunks");
+        }
     }
 
     private void Start()

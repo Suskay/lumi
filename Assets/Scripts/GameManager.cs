@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameOver { get; private set; }
 
+    public static int CurrentLevelIndex { get; set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -64,6 +66,19 @@ public class GameManager : MonoBehaviour
         // Reset any other necessary states or values here
     }
 
+    public void LoadNextLevel()
+    {
+        if (CurrentLevelIndex < RaceLevelMenu.levels.Count - 1)
+        {
+            CurrentLevelIndex++;
+            SceneManager.LoadScene(RaceLevelMenu.levels[CurrentLevelIndex]);
+        }
+        else
+        {
+            Debug.Log("No more levels to load");
+        }
+    }
+
     private void Update()
     {
         if (IsGameOver)
@@ -84,6 +99,7 @@ public class GameManager : MonoBehaviour
                 {
                     SceneManager.LoadScene("RaceLevelMenu");
                 }
+
                 ResetManagers();
             }
         }
@@ -99,20 +115,24 @@ public class GameManager : MonoBehaviour
     {
         ShadowManager.reset();
         SurvivalStatsManager.Reset();
+        IsGameOver = false;
         RaceStartCounter.isRaceStarted = false;
     }
 
     public Boolean BlockInput()
     {
-        
-
+        Debug.Log("IsGameOver // BlockInput: " + IsGameOver);
+        Debug.Log(gameObject.tag);
         if (gameObject.CompareTag("Survival"))
         {
+            Debug.Log("IsGameOver: " + IsGameOver);
+
             return (IsGameOver == true || BlackoutManager.isAnimationPlaying == true);
         }
         else if (gameObject.CompareTag("Race"))
         {
-           return IsGameOver || !RaceStartCounter.isRaceStarted;
+            Debug.Log("IsGameOver: " + IsGameOver + "ISRaceStarted: " + RaceStartCounter.isRaceStarted);
+            return IsGameOver || !RaceStartCounter.isRaceStarted;
         }
 
         return false;

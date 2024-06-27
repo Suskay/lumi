@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,16 +11,33 @@ public class TimerRaceMode : MonoBehaviour
     private bool isTimerRunning = false; // Whether the timer is currently running
     public Text gameOverText; // New UI Text element for game over message
     public GameObject textBackground; // Reference to the TextBackground plane
+    public GameObject postGameMenuButtons;
     public StarDisplay starDisplayComponent;
 
     void Start()
     {
-        if (timerText == null)
-        {
-            Debug.LogError("Text component not found. Make sure the names are correct.");
-        }
+        // Find the UI Text elements
+        GameObject timerTextObject = GameObject.Find("TimerText");
+        GameObject gameOverTextObject = GameObject.Find("GameOverText");
 
+        // Get the Text components
+        timerText = timerTextObject.GetComponent<Text>();
+        gameOverText = gameOverTextObject.GetComponent<Text>();
+
+        // Find the TextBackground plane
+        textBackground = GameObject.Find("TextBackground");
+
+        // Find the PostGameMenuButtons
+        GameObject postGameMenuButtonsObject = GameObject.Find("RacePostGameButtons");
+        postGameMenuButtons = postGameMenuButtonsObject;
+
+        // Find the StarDisplay component
+        GameObject starDisplayComponentObject = GameObject.Find("StarDisplay");
+        starDisplayComponent = starDisplayComponentObject.GetComponent<StarDisplay>();
+
+        textBackground.SetActive(false);
         starDisplayComponent.gameObject.SetActive(false);
+        postGameMenuButtons.gameObject.SetActive(false);
         StartCoroutine(StartTimer());
     }
 
@@ -53,17 +71,20 @@ public class TimerRaceMode : MonoBehaviour
         int starsEarned = StarRatingManager.Instance.GetStarRating(levelName, elapsedTime);
 
         //show the hidden star display component
-        
+
         starDisplayComponent.gameObject.SetActive(true);
         starDisplayComponent.SetStars(starsEarned);
+
+        postGameMenuButtons.gameObject.SetActive(true);
 
         var levelTimes = StarRatingManager.Instance.GetNeededTimesForLevel(levelName);
         starDisplayComponent.SetTimes(levelTimes.Item1, levelTimes.Item2);
 
         // Update game over text
-        gameOverText.text = $"Time: {timerText.text}\nPress R to restart or Escape to return to the Main Menu";
+        gameOverText.text = $"Your Time:\n{timerText.text}";
         timerText.text = "";
         textBackground.SetActive(true);
+
 
         GameManager.Instance.GameOver();
     }

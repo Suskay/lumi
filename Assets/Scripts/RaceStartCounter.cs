@@ -10,6 +10,9 @@ public class RaceStartCounter : MonoBehaviour
 
     private void Start()
     {
+        // Find the CountdownText
+        countdownText = GameObject.Find("RaceStartCounter").GetComponent<Text>();
+        
         StartCoroutine(StartCountdown());
     }
 

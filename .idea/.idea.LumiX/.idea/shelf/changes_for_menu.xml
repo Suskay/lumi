@@ -1,0 +1,19 @@
+﻿<changelist name="changes_for_menu" date="1719479279670" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/.idea.LumiX/.idea/shelf/changes_for_menu/shelved.patch" />
+  <option name="DESCRIPTION" value="changes for menu" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="Assets/Images/arrow_forward_ios_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.LumiX/.idea/shelf/changes_for_menu/arrow_forward_ios_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="Assets/Images/restart_alt_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.LumiX/.idea/shelf/changes_for_menu/restart_alt_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="Assets/Images/undo_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.LumiX/.idea/shelf/changes_for_menu/undo_24dp_FILL0_wght400_GRAD0_opsz24.png" />
+  </binary>
+</changelist>

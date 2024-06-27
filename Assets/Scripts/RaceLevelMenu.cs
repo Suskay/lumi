@@ -12,7 +12,7 @@ public class RaceLevelMenu : MonoBehaviour
     public Texture[] LevelThumbnails; // Array to hold the level thumbnails
     private static int selectedLevelIndex = 0; // Variable to hold the index of the selected level
 
-    private List<string> levels = new List<string> // List of level names
+    public static List<string> levels = new List<string> // List of level names
     {
         "Race1",
         "Race2",
@@ -74,6 +74,8 @@ public class RaceLevelMenu : MonoBehaviour
         {
             LevelPreview.texture = LevelThumbnails[levelIndex];
         }
+        
+        GameManager.CurrentLevelIndex = levelIndex;
 
         // Check if the level is unlocked
         bool isUnlocked = IsLevelUnlocked(levelIndex);

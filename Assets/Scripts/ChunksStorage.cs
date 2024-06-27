@@ -11,6 +11,7 @@ public class ChunksStorage : MonoBehaviour
     public int rows = 3; // rows of chunks
     public int columns = 3; // columns of chunks
     public Vector3 [] globalChunkCenters; // array of global chunk centers
+    public bool hasBeenGenerated = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,6 +27,7 @@ public class ChunksStorage : MonoBehaviour
     }
     void Start()
     {
+        hasBeenGenerated = true;
         ChunkDataList = new List<ChunkData>();
         createChunks(ChunkDataList);
         scanChunks(ChunkDataList);
